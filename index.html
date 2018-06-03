@@ -1,78 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" type="text/css" href="styles/lib/bootstrap.min.css">
-	<!-- Font Awesome CSS -->
-	<link rel="stylesheet" type="text/css" href="styles/lib/fontawesome-all.css">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  	<!-- Bootstrap CSS -->
+  	<link rel="stylesheet" type="text/css" href="styles/lib/bootstrap.min.css">
+  	<!-- Font Awesome CSS -->
+  	<!-- <link rel="stylesheet" type="text/css" href="styles/lib/fontawesome-all.css"> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
-	<title>gamesProject</title>
-</head>
+
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+  	<title>gamesProject</title>
+  </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a href="https://www.azzeco.com" class="navbar-brand"><img src="images/logo-sm.png"></a>
+    <!-- Depending on navbar-expand-lg/sm/med/etc/ this is the collapse button that shows -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Nav items -->
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a href="#" class="nav-link">Dashboard</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Games</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Leaderboards</a></li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <!-- Search Form -->
+        <li class="nav-item mr-2" id="navForm"><input class="form-control m-auto" type="search" placeholder="Search" aria-label="Search"></li>
+        <!-- Notifications -->
+        <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-bell fa-2x"></i></a>
+        </li>
+        <!-- Profile -->
+        <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-user-circle fa-2x"></i></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+<!-- *********
+Begin Jumbotron
+************ -->
 
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container text-center">
+    <h1 class="display-4 pb-4">Game List</h1>
+    <p class="font-weight-light jumbotron-p">Below you'll find some of the finest games the web can offer. From action-packed gun blastin', to gluttonous apple eating, to jammin on some keys.</p>
+    <p class="font-weight-light jumbotron-p">Make sure to create an account to store your AZZE Coins so you can redeem them for some glorious rewards.</p>
   </div>
-</nav>
-
-
-
-
-
-
-
-<div class="container">
-<h1>Hello World!</h1>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </div>
+<!-- *********
+Begin Container
+************ -->
+<div class="container">
+    <div class="row">
+      <!-- Card Bullseye -->
+      <div class="col-sm py-2">
+        <div class="card">
+          <img class="card-img-top" src="images/bullseye-thumb.jpg">
+          <div class="card-body">
+            <h5 class="card-title">Bullseye</h5>
+            <p class="card-text">Practice your aim against the best. But beware: don't let the snifflebot trigger you.</p>
+            <a href="#" class="btn btn-primary">Load Up</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card Snake -->
+      <div class="col-sm py-2">
+        <div class="card">
+          <img class="card-img-top" src="images/snake-thumb.jpg">
+          <div class="card-body">
+            <h5 class="card-title">Snake</h5>
+            <p class="card-text">Snake</p>
+            <a href="#" class="btn btn-primary">Get Eatin'</a>
+          </div>
+        </div>
+      </div>
+      <!-- Card Piano -->
+      <div class="col-sm py-2">
+        <div class="card">
+          <img class="card-img-top" src="images/piano-thumb.jpg">
+          <div class="card-body">
+            <h5 class="card-title">Piano Champ</h5>
+            <p class="card-text">Play me a song, Mr. Piano Champ.</p>
+            <a href="#" class="btn btn-primary">Play A Song</a>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+</div>
+
+
+<!-- FOOTER -->
+    <footer class="text-muted bg-dark mt-5 p-3">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Back to top</a>
+        </p>
+        <p>&copy; AZZE Co.</p>
+        <p>text</p>
+      </div>
+    </footer>
+
+
 	<!-- jQuery -->
 	<script type="text/javascript" src="scripts/lib/jquery.js"></script>
 	<!-- Bootstrap JS -->

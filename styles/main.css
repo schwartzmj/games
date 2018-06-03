@@ -1,0 +1,18 @@
+
+#navForm {
+	display:flex;
+	align-items:center;
+}
+
+/*.jumbotron .container {
+	width: 45%;
+}*/
+
+.jumbotron-p {
+	line-height:1.5em;
+	font-size: 1.4em;
+}
+
+
+
+
