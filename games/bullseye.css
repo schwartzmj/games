@@ -78,6 +78,24 @@ body {
 	overflow:hidden;
 }
 
+#missArea {
+	margin:0;
+	padding:0;
+	border:0;
+	height:100%;
+	width: 100%;
+}
+
+.miss {
+	animation:missed;
+	animation-duration:0.3s;
+}
+
+@keyframes missed {
+	from: {background-color: red;}
+	to: {background-color: #E5E5E5;}
+}
+
 .bullseye {
 	position:absolute;
 	width:5vw;
@@ -90,10 +108,11 @@ body {
 
 .bullseyeHit {
 	animation:targetHit;
-	animation-duration: 0.3s;
+	animation-duration: 1s;
 }
 
 @keyframes targetHit {
-	from {transform: scale(1.0);}
-	to {transform: scale(0);}
+	0% {transform: scale(1.0);}
+	50% {transform: scale(0.2);}
+	100% {transform: scale(0.0);}
 }
