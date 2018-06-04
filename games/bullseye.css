@@ -77,23 +77,23 @@ body {
 	background-color: #E5E5E5;
 	overflow:hidden;
 }
-
+body {
+	position:relative;
+}
 #missArea {
+	position:absolute;
 	margin:0;
 	padding:0;
 	border:0;
-	height:100%;
-	width: 100%;
-}
-
-.miss {
-	animation:missed;
-	animation-duration:0.3s;
-}
-
-@keyframes missed {
-	from: {background-color: red;}
-	to: {background-color: #E5E5E5;}
+	height:100vh;
+	width: 100vw;
+	animation:targetScale 0.1s linear;
+	animation-fill-mode: forwards;
+	-webkit-animation: targetScale 0.1s linear;
+    -webkit-animation-fill-mode: forwards;
+    z-index:-1;
+    background-color:red;
+    display:none;
 }
 
 .bullseye {
