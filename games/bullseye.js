@@ -1,14 +1,12 @@
-
-
-
-
-bullseyeArr = [];
-
-arr = [1,2];
-
-
+// bullseyeArr = [];
+// arr = [1,2];
+anyClick = 0;
 hitScore = 0;
 missScore = 0;
+var hitSound = new Howl({
+  		src: ['piston-1.mp3']
+});
+
 function getCanvasWidth() {
 	return $("#gameArea").width();
 }
@@ -28,7 +26,7 @@ function generateCoordinate() {
 }
 
 function generateBullseye() {
-	$("#gameArea").html("<div class='bullseye' style='margin-left:" + generateCoordinate()[0] + "px;margin-top:" + generateCoordinate()[1] + "px',></div>");
+	$("#gameArea").append("<div class='bullseye' style='margin-left:" + generateCoordinate()[0] + "px;margin-top:" + generateCoordinate()[1] + "px',></div>");
 };
 
 
@@ -46,17 +44,20 @@ $("#gameArea").on("click",".bullseye",function(){
 	$("#score").text(hitScore);
 	// console.log(hitScore);
 	// console.log("clicked circle");
-	$(this).css("backgroundColor","blue");
-	$(this).addClass("bullseyeHit");
+	// $(this).css("backgroundColor","blue");
+	// $(this).addClass("bullseyeHit");
+	$(this).hide();
+	hitSound.play()
 });
 
-// $("#gameArea").on("click",function(){
-// 	if ($(this).attr('id') != "bullseye") {
-
-// 		missScore += 1;
-// 		$("#misses").text(missScore);
-// 		// console.log("miss score:" + missScore);
-// 		// console.log("clicked");
-// 		$(this).addClass("miss");
-// 	};
-// });
+// (Not sure if this actually matters now that I think of it: use "CLICK" and not "ON"
+//because "ON" sets to future elements, "CLICK" only does existing
+// elements on load. If we do "ON" then it will apply to DIVs too
+$("#gameArea").click(function(){
+		anyClick++;
+		missScore = anyClick - hitScore;
+		$("#misses").text(missScore);
+		// console.log("miss score:" + missScore);
+		// console.log("clicked");
+		$(this).addClass("miss");
+});

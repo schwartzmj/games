@@ -102,17 +102,30 @@ body {
 	height:5vw;
 	background-color:red;
 	border-radius: 50%;
-
-
+	animation:targetScale 1.5s linear;
+	animation-fill-mode: forwards;
+	-webkit-animation: targetScale 1.5s linear;
+    -webkit-animation-fill-mode: forwards
 }
 
-.bullseyeHit {
-	animation:targetHit;
-	animation-duration: 1s;
+.bullseye:hover {
+	background-color:blue;
 }
 
-@keyframes targetHit {
-	0% {transform: scale(1.0);}
-	50% {transform: scale(0.2);}
-	100% {transform: scale(0.0);}
+/*.bullseyeHit {
+
+}*/
+
+@keyframes targetScale {
+	0% {transform: scale(1, 1);opacity:1;}
+	33% {transform: scale(0.83,0.83);opacity:0.83;}
+	66% {transform: scale(0.33,0.33);opacity:0.33;}
+	100% {transform: scale(0,0);opacity:0;}
+}
+
+@-webkit-keyframes targetScale {
+	0% {transform: scale(1, 1);opacity:1;}
+	33% {transform: scale(0.66,0.66);opacity:0.83;}
+	66% {transform: scale(0.33,0.33);opacity:0.33;}
+	100% {transform: scale(0,0);opacity:0;}
 }
