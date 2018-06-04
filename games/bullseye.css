@@ -46,6 +46,11 @@ table {
 
 
 
+h1 {
+	color:white;
+	text-align:center;
+	margin-bottom: -3vh;
+}
 
 
 body {
@@ -79,10 +84,16 @@ body {
 	height:5vw;
 	background-color:red;
 	border-radius: 50%;
+
+
 }
 
-h1 {
-	color:white;
-	text-align:center;
-	margin-bottom: -3vh;
+.bullseyeHit {
+	animation:targetHit;
+	animation-duration: 0.3s;
+}
+
+@keyframes targetHit {
+	from {transform: scale(1.0);}
+	to {transform: scale(0);}
 }

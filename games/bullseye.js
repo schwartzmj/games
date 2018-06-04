@@ -28,11 +28,13 @@ function generateBullseye() {
 	$("#gameArea").html("<div class='bullseye' style='margin-left:" + generateCoordinate()[0] + "px;margin-top:" + generateCoordinate()[1] + "px',></div>");
 }
 
-setInterval(generateBullseye, 1000);
+setInterval(generateBullseye, 4000);
 
 $("#gameArea").on("click",".bullseye",function(){
 	hitScore += 1;
 	$("#score").text(hitScore);
 	console.log(hitScore);
 	console.log("clicked circle");
+	$(this).css("backgroundColor","blue");
+	$(this).addClass("bullseyeHit");
 });
