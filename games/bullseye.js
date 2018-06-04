@@ -28,7 +28,7 @@ function generateBullseye() {
 	$("#gameArea").html("<div class='bullseye' style='margin-left:" + generateCoordinate()[0] + "px;margin-top:" + generateCoordinate()[1] + "px',></div>");
 }
 
-setInterval(generateBullseye, 4000);
+setInterval(generateBullseye, 1000);
 
 $("#gameArea").on("click",".bullseye",function(){
 	hitScore += 1;
