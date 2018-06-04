@@ -93,6 +93,7 @@ body {
     -webkit-animation-fill-mode: forwards;
     z-index:-1;
     background-color:red;
+    border-radius:5%;
     display:none;
 }
 
