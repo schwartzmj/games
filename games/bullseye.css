@@ -130,3 +130,24 @@ body {
 	66% {transform: scale(0.33,0.33);opacity:0.33;}
 	100% {transform: scale(0,0);opacity:0;}
 }
+
+
+/*
+GAME MODE STUFF
+*/
+#survivalCircle {
+	position:absolute;
+	width:5vw;
+	height:5vw;
+	background-color:black;
+	border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#survivalCircle:hover {
+	background-color:green;
+	animation-play-state: paused;
+}
