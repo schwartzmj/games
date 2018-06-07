@@ -50,6 +50,8 @@ survivalScore = 10;
 
 var checkIfSurviving = true;
 
+var survivalInterval;
+
 function survivalSetUp() {
 	$("#gameArea").append("<div id='survivalCircle'><p id='survivalCounter'>" + survivalScore + "</p></div>");
 	// variable to toggle between on circle and not
@@ -62,12 +64,15 @@ function survivalSetUp() {
 		checkIfSurviving = false;
 	});
 	//set an interval to check if true or false, and if one, then do something (via a function in that interval)
-	setInterval(survivalScoring, 10);
+	var survivalInterval = setInterval(survivalScoring, 10);
+	// survivalInterval;
 };
 
 function survivalScoring() {
-	if (survivalScore <= 0) {
-		alert("Game over, chump. Final Score: " + hitScore + " and you lasted " + clock + " seconds.");
+	if (survivalScore <= 0.01) {
+		clearInterval(survivalInterval);
+		if(!alert("Game over, chump. Final Score: " + hitScore + " and you lasted " + clock + " seconds.")){window.location.reload();}
+		// alert("Game over, chump. Final Score: " + hitScore + " and you lasted " + clock + " seconds.");
 	}
 	else if (checkIfSurviving === true) {
 		// survivalScore += 0.01;
