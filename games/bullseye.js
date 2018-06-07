@@ -4,6 +4,8 @@ anyClick = 0;
 hitScore = 0;
 missScore = 0;
 
+clock = 0;
+
 survivalScore = 10;
 
 var hitSound = new Howl({
@@ -11,13 +13,34 @@ var hitSound = new Howl({
 });
 
 //all game modes = defaultMode, survivalMode
-var gameMode = "survival";
+var gameMode = "default";
 
-init();
+
+generateBullseyeInterval = 1500;
+
+
+
 
 function init() {
 	if (gameMode === "survival") {
 		survivalSetUp();
+	}
+	setInterval(generateBullseye, generateBullseyeInterval);
+	setInterval(clockCount, 1000);
+};
+
+function clockCount() {
+	clock += 1;
+	$("#time").text(clock);
+	cleanUpBullseyes();
+}
+
+function cleanUpBullseyes() {
+	bullseyeArr = $(".bullseye").toArray();
+	for (i = 0; i < bullseyeArr.length; i++) {
+		if ($(bullseyeArr[i]).css('opacity') == 0) {
+			$(bullseyeArr[i]).remove();
+		}
 	}
 };
 
@@ -26,16 +49,16 @@ function survivalSetUp() {
 };
 
 
-function getCanvasWidth() {
+function getGameAreaWidth() {
 	return $("#gameArea").width();
 };
 
-function getCanvasHeight() {
+function getGameAreaHeight() {
 	return $("#gameArea").height();
 };
 
 function coordinateMax() {
-	return [getCanvasWidth(), getCanvasHeight()];
+	return [getGameAreaWidth(), getGameAreaHeight()];
 };
 
 function getBullseyeWidth() {
@@ -49,13 +72,13 @@ function getBullseyeHeight() {
 
 
 function generateCoordinate() {
-	var x = Math.random() * getCanvasWidth();
-	var y = Math.random() * getCanvasHeight();
+	var x = Math.random() * getGameAreaWidth();
+	var y = Math.random() * getGameAreaHeight();
 	return [calculateTargetX(x), calculateTargetY(y)];
 };
 
 function calculateTargetX(x) {
-	if (x > (getCanvasWidth() - getBullseyeWidth())) {
+	if (x > (getGameAreaWidth() - getBullseyeWidth())) {
 		x -= getBullseyeWidth();
 		return x;	
 	} 
@@ -65,7 +88,7 @@ function calculateTargetX(x) {
 };
 
 function calculateTargetY(y) {
-	if (y > (getCanvasHeight() - getBullseyeHeight())) {
+	if (y > (getGameAreaHeight() - getBullseyeHeight())) {
 		y -= getBullseyeHeight();
 		return y;	
 	} else {
@@ -80,8 +103,8 @@ function generateBullseye() {
 		//********************************************************************
 		//USE THESE NUMBERS TO ADJUST SURVIVAL MODE "NO SPAWN ZONE" IN MIDDLE
 		//********************************************************************
-		if (((xCoordinate < (getCanvasWidth() * 0.3)) || (xCoordinate > (getCanvasWidth() * 0.65))) 
-			|| ((yCoordinate < (getCanvasHeight() * 0.3)) || (yCoordinate > (getCanvasHeight() * 0.65)))) {
+		if (((xCoordinate < (getGameAreaWidth() * 0.3)) || (xCoordinate > (getGameAreaWidth() * 0.65))) 
+			|| ((yCoordinate < (getGameAreaHeight() * 0.3)) || (yCoordinate > (getGameAreaHeight() * 0.65)))) {
 			drawBullseye(xCoordinate, yCoordinate);
 		} else {
 			generateBullseye();	
@@ -102,7 +125,24 @@ function drawBullseye(xCoordinate, yCoordinate) {
 // 	console.log(bullseyeArr);
 // }
 
-setInterval(generateBullseye, 1000);
+$("#startGame").on("click",function(){
+	$("#splashPageContainer").remove();
+	init();
+})
+
+//
+// GAME MODE SELECTORS
+//
+$("#default").on("click",function(){
+	gameMode = "default";
+	console.log(gameMode)
+})
+
+$("#survival").on("click",function(){
+	gameMode = "survival";
+	console.log(gameMode)
+})
+
 
 $("#gameArea").on("click",".bullseye",function(ev){
 	hitScore += 1;

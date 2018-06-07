@@ -46,7 +46,7 @@ table {
 
 
 
-h1 {
+.gameInfo {
 	color:white;
 	text-align:center;
 	margin-bottom: -3vh;
@@ -56,6 +56,32 @@ h1 {
 body {
 	height:100%;
 	width:100%;	
+}
+
+#splashPageContainer {
+	position:absolute;
+	height:100vh;
+	width:100vw;
+	z-index: 99;
+	background-color:#343A40;
+}
+
+#splashPage {
+	position:static;
+	width:85%;
+	height:85%;
+	background-color:#E9ECEF;
+	margin: 5% auto;
+	text-align:center;
+}
+
+#splashPage img {
+	display:block;
+	margin: 20px auto;
+}
+
+.radio {
+	margin: 10px 10px;
 }
 
 .container {
