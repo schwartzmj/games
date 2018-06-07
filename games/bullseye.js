@@ -67,7 +67,7 @@ function survivalSetUp() {
 
 function survivalScoring() {
 	if (survivalScore <= 0) {
-		alert("Game over, chump");
+		alert("Game over, chump. Final Score: " + hitScore + " and you lasted " + clock + " seconds.");
 	}
 	else if (checkIfSurviving === true) {
 		// survivalScore += 0.01;
