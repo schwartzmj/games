@@ -1,12 +1,11 @@
-// bullseyeArr = [];
-// arr = [1,2];
+
 anyClick = 0;
 hitScore = 0;
 missScore = 0;
 
 clock = 0;
 
-survivalScore = 10;
+
 
 var hitSound = new Howl({
   		src: ['piston-1.mp3']
@@ -18,10 +17,13 @@ var gameMode = "default";
 
 generateBullseyeInterval = 1500;
 
+// function resetGame() {
 
+// };
 
 
 function init() {
+	// resetGame();
 	if (gameMode === "survival") {
 		survivalSetUp();
 	}
@@ -44,10 +46,42 @@ function cleanUpBullseyes() {
 	}
 };
 
+survivalScore = 10;
+
+var checkIfSurviving = true;
+
 function survivalSetUp() {
-	$("#gameArea").append("<div id='survivalCircle'></div>");
+	$("#gameArea").append("<div id='survivalCircle'><p id='survivalCounter'>" + survivalScore + "</p></div>");
+	// variable to toggle between on circle and not
+	//on mouse enter set to true
+	$("#survivalCircle").on("mouseenter",function(){
+		checkIfSurviving = true;
+	});
+	//on mouse leave set to false
+	$("#survivalCircle").on("mouseleave",function(){
+		checkIfSurviving = false;
+	});
+	//set an interval to check if true or false, and if one, then do something (via a function in that interval)
+	setInterval(survivalScoring, 10);
 };
 
+function survivalScoring() {
+	if (survivalScore <= 0) {
+		alert("Game over, chump");
+	}
+	else if (checkIfSurviving === true) {
+		// survivalScore += 0.01;
+		console.log(survivalScore);
+	} else if (checkIfSurviving === false) {
+		survivalScore -= 0.01;
+		$("#survivalCounter").text(Math.floor(survivalScore));
+		console.log(survivalScore);
+	}
+};
+
+//*************
+//Bullseye Code
+//*************
 
 function getGameAreaWidth() {
 	return $("#gameArea").width();
@@ -110,7 +144,7 @@ function generateBullseye() {
 			generateBullseye();	
 		}
 	} else {
-		drawBullseye();
+		drawBullseye(xCoordinate, yCoordinate);
 	}
 };
 
@@ -118,21 +152,18 @@ function drawBullseye(xCoordinate, yCoordinate) {
 	$("#gameArea").append("<div class='bullseye' style='margin-left:" + xCoordinate + "px;margin-top:" + yCoordinate + "px',></div>");
 }
 
-// function addBullseyeToArray() {
-// 	// $("#gameArea").html("<div class='bullseye' style='margin-left:" + generateCoordinate()[0] + "px;margin-top:" + generateCoordinate()[1] + "px',></div>");
-// 	var bullseye = "<div class='bullseye' style='margin-left:" + generateCoordinate()[0] + "px;margin-top:" + generateCoordinate()[1] + "px',></div>";
-// 	bullseyeArr.push(bullseye);
-// 	console.log(bullseyeArr);
-// }
+//*****************
+//END Bullseye Code
+//*****************
 
 $("#startGame").on("click",function(){
 	$("#splashPageContainer").remove();
 	init();
 })
 
-//
+//********************
 // GAME MODE SELECTORS
-//
+//********************
 $("#default").on("click",function(){
 	gameMode = "default";
 	console.log(gameMode)
@@ -143,7 +174,9 @@ $("#survival").on("click",function(){
 	console.log(gameMode)
 })
 
-
+//*****************
+//    SCORING
+//*****************
 $("#gameArea").on("click",".bullseye",function(ev){
 	hitScore += 1;
 	$("#score").text(hitScore);
@@ -169,36 +202,6 @@ $("#gameArea").click(function(){
 		// console.log("clicked");
 		$("body").prepend("<div id='missArea'style='display:block;'></div>");
 });
-
-// survivalCounter = 5000;
-
-// mouseLeaveInterval = 5000;
-
-
-// $("#survivalCircle").one("mouseleave", function(){
-
-// 	console.log(mouseLeaveInterval);
-
-// 		var interval = setInterval(function(){
-// 			mouseLeaveInterval -= 1000;
-// 			// survivalCounter -= 1;
-// 			// console.log(survivalCounter);
-// 		}, 1000);
-// 		$("#survivalCircle").fadeOut(mouseLeaveInterval);
-// 		console.log('LEAVE');
-// 		console.log(interval);
-// });
-
-// function mouseEnter(interval){ $("#survivalCircle").on("mouseenter", function(){
-// 		$("#survivalCircle").stop();
-// 		clearInterval(interval);
-// 				console.log(interval + "enter interval log");
-// 		console.log('ENTER');
-// 	});
-// };
-
-//
-// **** USE "ONE" INSTEAD OF "ON" FOR ONLY ONE EVENT GENERATION ON MOUSE LEAVE
-//
-
-
+//*****************
+//  END SCORING
+//*****************

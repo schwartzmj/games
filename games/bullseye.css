@@ -132,7 +132,9 @@ body {
 	animation:targetScale 1.5s linear;
 	animation-fill-mode: forwards;
 	-webkit-animation: targetScale 1.5s linear;
-    -webkit-animation-fill-mode: forwards
+    -webkit-animation-fill-mode: forwards;/*
+    background-image:url(../images/mitchFace.png);
+    background-size:cover;*/
 }
 
 .bullseye:hover {
@@ -176,4 +178,17 @@ GAME MODE STUFF
 #survivalCircle:hover {
 	background-color:green;
 	animation-play-state: paused;
+}
+
+#survivalCounter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	color:white;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
