@@ -17,6 +17,13 @@ var snekBody = document.querySelector(".snekBody");
 var apple = document.querySelector(".apple");
 var score = document.querySelector("#score");
 var snekBody = document.querySelector(".snekBody");
+var tickRateRange = document.getElementById("tickRateRange");
+var tickRateDisplay = document.getElementById("tickRateDisplay");
+var startButton = document.querySelector("#start");
+
+startButton.addEventListener("click",function(){
+    init();
+})
 
 function captureSnekMovements(time){
     var xStart = getCoords(snekHead)[0];
@@ -26,10 +33,17 @@ function captureSnekMovements(time){
     time = [xStart, xEnd, yStart, yEnd];
     snekMovements.unshift(time);
 };
+//
+//Game Options and Start
+//
 
-init();
-
+tickRateRange.oninput = function () {
+    tickRateDisplay.innerHTML = this.value;
+    tickRate = this.value;
+    console.log(tickRate);
+}
 function clock(){
+    // getGameSpeed();
     time += tickRate / 1000;
     captureSnekMovements(time);
     move(snekHead);
@@ -45,6 +59,8 @@ function init() {
     setInterval(clock, tickRate);
 
 }
+
+
 
 function endGame(str){
     alert("Game over! " + str);

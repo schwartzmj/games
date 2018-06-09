@@ -67,7 +67,17 @@ Begin Container
 
 
     <div id="gameContainer">
-       <p id="gameInfo">Score: <span id="score">0</span></p>
+       <div id="gameInfo"></br>
+         <p>Game Speed: <span id="tickRateDisplay">1000</span></p>
+    <div class="slidecontainer">
+        <input type="range" min="100" max="1000" value="1000" class="slider" id="tickRateRange">
+    </div>
+    <button id="start" class="btn btn-primary">Start</button>
+
+     <p>Score:
+    <span id="score">0</span>
+    </p>
+</div>
         <div id="gameArea">
             
 
