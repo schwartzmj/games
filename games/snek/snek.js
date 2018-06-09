@@ -1,5 +1,5 @@
 time = 0;
-tickRate = 1000;
+tickRate = 500;
 var snekLength = 0;
 var direction = "up";
 var generateBodyCheck = false;
