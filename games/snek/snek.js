@@ -133,21 +133,35 @@ function drawElem(elem) {
 }
 
 function generateApple(){
+    var appleReadyToDraw = true;
     if (window.getComputedStyle(apple).display === "none") {
     var appleX = Math.floor(Math.random() * 10) + 1;
     var appleY = Math.floor(Math.random() * 10) + 1;
     //re-generate if Apple lands on snake body (add head too later?)
-    for (i = 0; i <= snekLength; i++) {
-       if ((appleX === snekMovements[i][0]) && (appleY === snekMovements[i][2])) {
-           generateApple();
-       }
-    }
+        for (i = 0; i <= snekLength; i++) {
+            if ((appleX === snekMovements[i][0]) && (appleY === snekMovements[i][2])) {
+                console.log("apple was randomized on to body, starting genApple function");
+                appleReadyToDraw = false;
+            }
+        }
+        if ((appleX === getCoords(snekHead)[0]) && (appleY === getCoords(snekHead)[2])) {
+            console.log("apple was randomized on HEAD. restarting gen apple");
+            appleReadyToDraw = false;
+        }
+        if (appleReadyToDraw === true){
+            drawApple(appleX, appleY);
+        } else {
+            generateApple();
+        }
+    }   
+};
+
+function drawApple(appleX, appleY){
     apple.style.gridRow = appleX + "/" + (appleX + 1);
     apple.style.gridColumn = appleY + "/" + (appleY + 1);
     apple.style.display = "block";
     currentAppleCoords.unshift(appleX, appleY);
-    }
-};
+}
 
 function checkCollision(){
     var snekRowStart = getCoords(snekHead)[0];
