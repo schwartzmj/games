@@ -1,0 +1,263 @@
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+#gameContainer {
+    display:flex;
+    position:relative;
+    box-sizing: content-box;
+    width: 1000px;
+    height: 1000px;
+    margin: 5% auto;
+    border:#F5F5F5 1px solid;
+    align-items:center;
+    padding: 50px;
+}
+/****
+Game Info Container and Information
+****/
+#gameInfo {
+    display:flex;
+    flex-direction:column;
+    position:absolute;
+    top: 1%;
+    color:white;
+    width: 35%;
+    align-items:center;
+}
+
+.slidecontainer {
+    position: relative;
+    width: 100%%;
+    padding: 10px;
+}
+
+#start {
+    position: relative;
+    width:20%;
+}
+
+#tickRateDisplay {
+    color: white;
+}
+
+.slider {
+    -webkit-appearance: none;
+    /* Override default CSS styles */
+    appearance: none;
+    width: 100%;
+    /* Full-width */
+    height: 25px;
+    /* Specified height */
+    background: #d3d3d3;
+    /* Grey background */
+    outline: none;
+    /* Remove outline */
+    opacity: 0.7;
+    /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s;
+    /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+    /* Fully shown on mouse-over */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* Override default look */
+    appearance: none;
+    width: 25px;
+    /* Set a specific slider handle width */
+    height: 25px;
+    /* Slider handle height */
+    background: #4CAF50;
+    /* Green background */
+    cursor: pointer;
+    /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    /* Set a specific slider handle width */
+    height: 25px;
+    /* Slider handle height */
+    background: #4CAF50;
+    /* Green background */
+    cursor: pointer;
+    /* Cursor on hover */
+}
+/****
+END Game Info Container and Information
+****/
+#gameArea {
+    display:grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    box-sizing: content-box;
+    width: 800px;
+    height: 800px;
+    margin-left:auto;
+    background-color:#F5F5F5;
+}
+
+#availablePiecesArea {
+    background-color:#F5F5F5;
+    display:grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    box-sizing: content-box;
+    width: 196px;
+    height: 800px;
+    margin-right:auto;
+}
+
+#availablePiecesArea div {
+    border: 0.25px solid #FFFFFF;
+}
+
+/* .pipeBox:nth-child(even) {
+    background-color:whitesmoke;
+} */
+
+.gooFaucet {
+    background-color:green !important;
+}
+
+.gooFaucetTop {
+    background: linear-gradient( to top, rgb(214, 245, 214) 0%, rgb(199, 250, 199) 50%, rgb(120, 238, 120) 50%, green 100%) !important;
+}
+.gooFaucetBottom {
+    background: linear-gradient( to bottom, rgb(214, 245, 214) 0%, rgb(199, 250, 199) 50%, rgb(120, 238, 120) 50%, green 100%) !important;
+}
+.gooFaucetLeft {
+    background: linear-gradient( to left, rgb(214, 245, 214) 0%, rgb(199, 250, 199) 50%, rgb(120, 238, 120) 50%, green 100%) !important;
+}
+.gooFaucetRight {
+    background: linear-gradient( to right, rgb(214, 245, 214) 0%, rgb(199, 250, 199) 50%, rgb(120, 238, 120) 50%, green 100%) !important;
+}
+
+.gooDrain {
+    background-color: pink;
+}
+
+.gooDrainTop {
+    background: linear-gradient( to top, white 0%, white 50%, #787aee 50%, purple 100%) !important;
+}
+
+.gooDrainBottom {
+    background: linear-gradient( to bottom, white 0%, white 50%, #787aee 50%, purple 100%) !important;
+}
+
+.gooDrainLeft {
+    background: linear-gradient( to left, white 0%, white 50%,#787aee 50%, purple 100%) !important;
+}
+
+.gooDrainRight {
+    background: linear-gradient( to right, white 0%, white 50%, #787aee 50%, purple 100%) !important;
+}
+
+#gooPiece {
+    animation-name: gooPiece;
+    animation-duration: 5s;
+    animation-fill-mode: forwards;
+}
+@keyframes gooPiece {
+    from {background-color: none;}
+    to {background-color:green;}
+}
+
+.oldGooPiece {
+    background-color:green;
+}
+
+/* @keyframes gooPiece {
+    from {filter: none;}
+    to {filter: sepia() saturate(10000%) hue-rotate(30deg);}
+} */
+
+.pipeBox {
+    border: 0.25px rgba(25,25,25,0.25) solid;
+    background-size: cover;
+}
+
+.pieceBox {
+    background-size: cover;
+}
+
+ .verticalStraight {
+    background-image: url(images/verticalStraight.png);
+ }
+ .horizontalStraight {
+    background-image: url(images/horizontalStraight.png);
+ }
+ .cross {
+    background-image: url(images/cross.png);
+ }
+ .topCurveLeft {
+    background-image: url(images/topCurveLeft.png);
+ }
+ .topCurveRight {
+    background-image: url(images/topCurveRight.png);
+ }
+ .bottomCurveLeft {
+    background-image: url(images/bottomCurveLeft.png);
+ }
+ .bottomCurveRight {
+    background-image: url(images/bottomCurveRight.png);
+ }
+ .leftCurveTop {
+    background-image: url(images/leftCurveTop.png);
+ }
+ .leftCurveBottom {
+    background-image: url(images/leftCurveBottom.png);
+ }
+ .rightCurveTop {
+    background-image: url(images/rightCurveTop.png);
+ }
+ .rightCurveBottom {
+    background-image: url(images/rightCurveBottom.png);
+ }
