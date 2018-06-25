@@ -1,5 +1,6 @@
 let mousePos;
 let debug = false;
+let debugPause = false;
 
 function debugInit() {
     let debugMenu = document.getElementById('debugMenu');
@@ -38,4 +39,9 @@ spawnBasicButton.addEventListener('click', function(){
 let spawnFastButton = document.getElementById('spawnFast');
 spawnFastButton.addEventListener('click', function () {
     generateNewEnemy(fastEnemy);
+});
+
+let debugPauseButton = document.getElementById('debugPause');
+debugPauseButton.addEventListener('click', function () {
+    debugPause = !debugPause;
 });

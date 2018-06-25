@@ -68,5 +68,22 @@ function drawBullets() {
         ctx.arc(nonPercentXPos, nonPercentYPos, nonPercentRadius, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
+
+
+        //DEBUGGING
+        if (debug === true) {
+            ctx.font = "12px Georgia";
+            ctx.fillStyle = 'white';
+            ctx.fillText(('x%: ' + ele.xPos + ' y%: ' + ele.yPos), nonPercentXPos, nonPercentYPos + 40);
+            ctx.fillText(('x No%: ' + nonPercentXPos + ' y No%: ' + nonPercentYPos), nonPercentXPos, nonPercentYPos - 20);
+
+
+            //draw hitbox? -- enter x, y, w, h
+            //ctx.fillRect(x, y,
+            //    w, h);
+            }
     })
+
+
+
 };

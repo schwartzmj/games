@@ -76,16 +76,18 @@ function drawEnemies() {
 function generateNewEnemy({x, y, dx, dy, width, height, display, projectileDX, projectileDY,
     projectileSize, projectileDisplay, fireRate, damage, points, life}) {
     //generate random x and y coordinates, place into new Enemy() argument
-    x = Math.random() * 0.8;
-    y = Math.random() * 0.4;
-    let newEnemy = new Enemy(
-        x, y, dx, dy, width, height, display, projectileDX, projectileDY,
-        projectileSize, projectileDisplay, fireRate, damage, points, life
-    );
-    enemies.push(newEnemy);
-    newEnemy.id = setInterval(() => {
-        newEnemy.newEnemyProjectile()
-    }, newEnemy.fireRate);
+    if (debugPause === false) {
+        x = Math.random() * 0.8;
+        y = Math.random() * 0.4;
+        let newEnemy = new Enemy(
+            x, y, dx, dy, width, height, display, projectileDX, projectileDY,
+            projectileSize, projectileDisplay, fireRate, damage, points, life
+        );
+        enemies.push(newEnemy);
+        newEnemy.id = setInterval(() => {
+            newEnemy.newEnemyProjectile()
+        }, newEnemy.fireRate);
+    }
 };
 
 function drawEnemyProjectiles() {
@@ -115,12 +117,14 @@ function drawEnemyProjectiles() {
 };
 
 function moveEnemies() {
-    enemies.forEach((enemy) => {
-        let movePositive = Math.random() / 10;
-        let moveNegative = -(Math.random() / 10);
-        let move = movePositive + moveNegative;
-        enemy.x += move;
-    });
+    if (debugPause === false) {
+        enemies.forEach((enemy) => {
+            let movePositive = Math.random() / 10;
+            let moveNegative = -(Math.random() / 10);
+            let move = movePositive + moveNegative;
+            enemy.x += move;
+        });
+    }
 };
 
 class Enemy {

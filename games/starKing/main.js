@@ -6,8 +6,10 @@ window.onload = function() {
     // game engine / tick rate
     let framesPerSecond = 60;
     setInterval(()=>{
-        drawEverything();
-        moveEverything();
+        if (debugPause === false) {
+            drawEverything();
+            moveEverything();
+        }
     }, 1000/framesPerSecond);
 
     // move player event listeners (WASD)
@@ -61,30 +63,30 @@ window.onload = function() {
 };
 
 function drawEverything() {
-    c.width = window.innerWidth;
-    c.height = window.innerHeight;
-    drawPlayer();
-    drawEnemies();
-    drawBullets();
-    drawEnemyProjectiles();
-    checkBulletCollision();
-    drawPlayerInfo();
-    removeOldBullets();
+        c.width = window.innerWidth;
+        c.height = window.innerHeight;
+        drawPlayer();
+        drawEnemies();
+        drawBullets();
+        drawEnemyProjectiles();
+        checkBulletCollision();
+        drawPlayerInfo();
+        removeOldBullets();
 };
 
 function moveEverything() {
-    if (keyMap.up) {
-        Player.playerY -= Player.playerSpeed;
-    }
-    if (keyMap.down) {
-        Player.playerY += Player.playerSpeed;
-    }
-    if (keyMap.left) {
-        Player.playerX -= Player.playerSpeed;
-    }
-    if (keyMap.right) {
-        Player.playerX += Player.playerSpeed;
-    }
+        if (keyMap.up) {
+            Player.playerY -= Player.playerSpeed;
+        }
+        if (keyMap.down) {
+            Player.playerY += Player.playerSpeed;
+        }
+        if (keyMap.left) {
+            Player.playerX -= Player.playerSpeed;
+        }
+        if (keyMap.right) {
+            Player.playerX += Player.playerSpeed;
+        }
 };
 
 function removeOldBullets() {
