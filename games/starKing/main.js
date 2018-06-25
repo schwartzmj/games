@@ -1,25 +1,6 @@
 let c = document.getElementById('canvas');
 let ctx = c.getContext('2d');
 
-let Player = {
-    'playerWidth': 0.05,
-    'playerHeight': 0.05,
-    'playerX': 0.5,
-    'playerY': 0.5,
-    'playerSpeed': 0.005,
-    'playerColor': 'blue'
-};
-
-let keyMap = {
-    'up': false,
-    'down': false,
-    'left': false,
-    'right': false
-};
-
-let enemies = [];
-let bullets = [];
-
 // on window load, start game engine, add event listeners
 window.onload = function() {
     // game engine / tick rate
@@ -76,9 +57,8 @@ window.onload = function() {
         document.addEventListener('touchstart', function (evt) {
                 generateBullet();
         });
-
+        debugInit();
 };
-
 
 function drawEverything() {
     c.width = window.innerWidth;
@@ -86,7 +66,9 @@ function drawEverything() {
     drawPlayer();
     drawEnemies();
     drawBullets();
+    drawEnemyProjectiles();
     checkBulletCollision();
+    drawPlayerInfo();
     removeOldBullets();
 };
 
@@ -105,99 +87,17 @@ function moveEverything() {
     }
 };
 
-function drawPlayer() {
-    // To be responsive:
-    // player X and Y coordinates are values from 0-1 (e.g. 0.5 0.284)
-    // player Speed is also a value (e.g. 0.005 (5%))
-    // here, we are converting these percentages into actual number coordinates on canvas
-    let playerXFromPercentToActual = Player.playerX * c.width;
-    let playerYFromPercentToActual = Player.playerY * c.height;
-    // same for player width and height
-    let playerWidthFromPercentToActual = Player.playerWidth * c.width;
-    // let playerHeightFromPercentToActual = Player.playerHeight * c.height;
-    // draw it
-    ctx.fillStyle = Player.playerColor;
-    ctx.fillRect(playerXFromPercentToActual, playerYFromPercentToActual,
-        playerWidthFromPercentToActual, playerWidthFromPercentToActual / 2);
-    ctx.fill();
-};
-
-function drawEnemies() {
-
-    enemies.forEach((ele) => {
-        let enemyXFromPercentToActual = ele.xPos * c.width;
-        let enemyYFromPercentToActual = ele.yPos * c.height;
-
-        let enemyWidthFromPercentToActual = ele.width * c.width;
-        ctx.fillStyle = ele.color;
-        ctx.fillRect(enemyXFromPercentToActual, enemyYFromPercentToActual,
-            enemyWidthFromPercentToActual, enemyWidthFromPercentToActual / 2);
-
-    })
-}
-
-class Enemy {
-    constructor() {
-        this.id = Date.now() + Math.random();
-        this.xPos = Math.random() * 0.8;
-        this.yPos = Math.random() * 0.3;
-        this.width = 0.1;
-        this.color = 'red';
-    }
-};
-
-var enemy1 = new Enemy();
-var enemy2 = new Enemy();
-
-enemies.push(enemy1);
-enemies.push(enemy2);
-
-
-
-
-
-
-class Bullet {
-    constructor() {
-        this.id = Date.now() + Math.random();
-        this.xPos = Player.playerX;
-        this.yPos = Player.playerY;
-        this.width = 0.01;
-        this.color = 'green';
-    }
-}
-
-
-
-function generateBullet() {
-    let newBullet = new Bullet();
-    bullets.push(newBullet);
-  
-}
-
-
-
-function drawBullets() {
-    bullets.forEach((ele) => {
-        ele.yPos -= .01;
-
-        let nonPercentXPos = ele.xPos * c.width;
-        let nonPercentYPos = ele.yPos * c.height;
-        let nonPercentRadius = ele.width * c.width;
-
-        ctx.fillStyle = ele.color;
-        ctx.beginPath();
-        ctx.arc(nonPercentXPos, nonPercentYPos, nonPercentRadius, 0, 2 * Math.PI);
-        ctx.stroke();
-        ctx.fill();
-    })
-};
-
 function removeOldBullets() {
     bullets.forEach((ele) => {
-        if (ele.yPos <= 0) {
+        if (ele.y <= 0) {
             let index = bullets.indexOf(ele);
             bullets.splice(index, 1);
+        }
+    });
+    enemyProjectiles.forEach((ele) => {
+        if (ele.y >= 1) {
+            let index = enemyProjectiles.indexOf(ele);
+            enemyProjectiles.splice(index, 1);
         }
     });
 };
@@ -222,8 +122,39 @@ function checkBulletCollision() {
                     let indexBullet = bullets.indexOf(bullet);
                     let indexEnemy = enemies.indexOf(enemy);
                     bullets.splice(indexBullet, 1);
+
+                    Player.score += enemy.points;
+                    
+                    clearInterval(enemy.id);
                     enemies.splice(indexEnemy, 1);
             }
         })
     })
+    enemyProjectiles.forEach((enemyBullet) => {
+        if (((enemyBullet.x <= (Player.playerX + Player.playerWidth)) && (enemyBullet.x >= Player.playerX)) &&
+            ((enemyBullet.y <= (Player.playerY + Player.playerHeight)) && (enemyBullet.y >= Player.playerY))) {
+                let indexEnemyBullet = enemyProjectiles.indexOf(enemyBullet);
+                enemyProjectiles.splice(indexEnemyBullet, 1);
+                Player.life -= enemyBullet.damage;
+        };
+    });
+};
+
+
+
+function drawPlayerInfo() {
+    ctx.font="20px Georgia";
+    ctx.fillStyle = 'white';
+    ctx.fillText('Life: ' + Player.life, 10, 40);
+    ctx.fillText('Score: ' + Player.score, 10, 60);
+    ctx.font="12px Georgia";
+    ctx.fillText('WASD to move, ArrowUp to fire', 10, 80);
+
 }
+
+
+generateNewEnemy(basicEnemy);
+setInterval(() => {
+    generateNewEnemy(basicEnemy)
+}, 8000);
+setInterval(moveEnemies, 1500);

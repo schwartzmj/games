@@ -33,6 +33,39 @@ canvas {
 
 /* To remove the scrollbars */
 
+#debugButton {
+    position:fixed;
+    right:0;
+    top:0;
+    width: 100px;
+    height: 50px;
+    border: 1px solid pink;
+    background: transparent;
+    color:white;
+}
+
+#debugMenu {
+    display: none;
+    position:fixed;
+    right:0;
+    bottom:0;
+    height: 200px;
+    width: 100px;
+    border: 1px solid pink;
+    color:white;
+    text-align:center;
+}
+
+#debugMenu li {
+    list-style-type: none;
+    padding: 2px 0;
+    border: 0.5px dashed pink;
+    cursor:default;
+}
+
+#debugMenu li:hover {
+    color:yellow;
+}
 
 @keyframes move-twink-back {
     from {
