@@ -119,6 +119,13 @@ function checkBulletCollision() {
                 && 
                 ((bulletYPos <= (enemyYPos + enemyHeight)) && (bulletYPos >= enemyYPos))) 
             {
+                console.log('Collision debug// bulletXPos: ' + bulletXPos + ' <= enemyxPos + enemyWidth '
+                    + enemyXPos + ' + ' + enemyWidth + "(" + (enemyXPos + enemyWidth) + ") AND bulletXpos: "
+                    + bulletXPos + " is >= enemyXPos: " + enemyXPos);
+                console.log("//AND// bulletYPos: " + bulletYPos + " <= enemyYPos ("
+                    + enemyYPos + "+ enemyHeight(" + enemyHeight + ") (" + (enemyYPos + enemyHeight) +
+                    " AND bulletYPos: " + bulletYPos + " >= enemyYPos: " + enemyYPos);
+                console.log("//OBJECTS// ===Enemy:=== " + JSON.stringify(enemy) + " ===Bullet:=== " + JSON.stringify(bullet));
                     let indexBullet = bullets.indexOf(bullet);
                     let indexEnemy = enemies.indexOf(enemy);
                     bullets.splice(indexBullet, 1);
