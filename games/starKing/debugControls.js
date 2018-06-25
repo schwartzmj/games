@@ -1,4 +1,5 @@
 let mousePos;
+let debug = false;
 
 function debugInit() {
     let debugMenu = document.getElementById('debugMenu');
@@ -7,8 +8,10 @@ function debugInit() {
     debugButton.addEventListener('click', function(){
         if (debugMenu.style.display === "none") {
             debugMenu.style.display = "block";
+            debug = true;
         } else {
             debugMenu.style.display = "none";
+            debug = false;
         }
     });
     c.addEventListener('mousemove', function (evt) {

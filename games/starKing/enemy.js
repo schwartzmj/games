@@ -61,6 +61,15 @@ function drawEnemies() {
         //draw the enemy
         ctx.fillRect(enemyXFromPercentToActual, enemyYFromPercentToActual,
             enemyWidthFromPercentToActual, enemyWidthFromPercentToActual / 2);
+
+
+        //DEBUGGING
+        if (debug === true) {
+        ctx.font = "12px Georgia";
+        ctx.fillStyle = 'white';
+        ctx.fillText(('x%: ' + ele.x + ' y%: ' + ele.y), enemyXFromPercentToActual, enemyYFromPercentToActual + 120);
+        ctx.fillText(('x No%: ' + enemyXFromPercentToActual  + ' y No%: ' + enemyYFromPercentToActual), enemyXFromPercentToActual, enemyYFromPercentToActual - 20);
+        }
     })
 };
 
