@@ -21,7 +21,23 @@ let basicEnemy = {
     'life': 1
 };
 
-
+let fastEnemy = {
+    'x': 0.5,
+    'y': 0.5,
+    'dx': 0,
+    'dy': 0,
+    'width': 0.05,
+    'height': 0.025,
+    'display': 'orange',
+    'projectileDX': .006,
+    'projectileDY': .015,
+    'projectileSize': .007,
+    'projectileDisplay': 'red',
+    'fireRate': 3000,
+    'damage': 2,
+    'points': 2,
+    'life': 2
+};
 
 
 
