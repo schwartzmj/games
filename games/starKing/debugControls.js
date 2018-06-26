@@ -17,9 +17,6 @@ function debugInit() {
     });
     c.addEventListener('mousemove', function (evt) {
         mousePos = getMousePos(c, evt);
-        ctx.font = "12px Georgia";
-        ctx.fillStyle = 'white';
-        ctx.fillText(('x:' + mousePos.x + ' y:' + mousePos.y), mousePos.x, mousePos.y);
     }, false);
 }
 

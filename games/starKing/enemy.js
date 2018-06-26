@@ -52,23 +52,24 @@ let fastEnemy = {
 function drawEnemies() {
     enemies.forEach((ele) => {
         //convert % x and y coordinates into actual canvas coordinates
-        let enemyXFromPercentToActual = ele.x * c.width;
-        let enemyYFromPercentToActual = ele.y * c.height;
+        let enemyXActual = ele.x * c.width;
+        let enemyYActual = ele.y * c.height;
         //convert % width to actual width to be placed on canvas
-        let enemyWidthFromPercentToActual = ele.width * c.width;
+        let enemyWidthActual = ele.width * c.width;
+        let enemyHeightActual = ele.height * c.height;
         // fill enemy with display color
         ctx.fillStyle = ele.display;
         //draw the enemy
-        ctx.fillRect(enemyXFromPercentToActual, enemyYFromPercentToActual,
-            enemyWidthFromPercentToActual, enemyWidthFromPercentToActual / 2);
+        ctx.fillRect(enemyXActual, enemyYActual,
+            enemyWidthActual, enemyHeightActual);
 
 
         //DEBUGGING
         if (debug === true) {
         ctx.font = "12px Georgia";
         ctx.fillStyle = 'white';
-        ctx.fillText(('x%: ' + ele.x + ' y%: ' + ele.y), enemyXFromPercentToActual, enemyYFromPercentToActual + 120);
-        ctx.fillText(('x No%: ' + enemyXFromPercentToActual  + ' y No%: ' + enemyYFromPercentToActual), enemyXFromPercentToActual, enemyYFromPercentToActual - 20);
+        ctx.fillText(('x%: ' + ele.x + ' y%: ' + ele.y), enemyXActual, enemyYActual + 120);
+        ctx.fillText(('x No%: ' + enemyXActual  + ' y No%: ' + enemyYActual), enemyXActual, enemyYActual - 20);
         }
     })
 };
@@ -155,8 +156,8 @@ class Enemy {
         this.points = points;
         this.life = life;
         // legacy
-        this.xPos = x;
-        this.yPos = y;
+        // this.xPos = x;
+        // this.yPos = y;
     }
     newEnemyProjectile() {
         // start by make starting x coord for projectile the center of enemy

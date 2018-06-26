@@ -3,6 +3,8 @@ let Player = {
     'playerHeight': 0.05,
     'playerX': 0.5,
     'playerY': 0.5,
+    'bulletDX': .005,
+    'bulletDY': .005,
     'playerSpeed': 0.005,
     'playerColor': 'blue',
     'life': 1000,
@@ -38,8 +40,10 @@ function drawPlayer() {
 class Bullet {
     constructor() {
         this.id = Date.now() + Math.random();
-        this.xPos = Player.playerX;
-        this.yPos = Player.playerY;
+        this.x = Player.playerX;
+        this.y = Player.playerY;
+        this.dx = Player.bulletDX;
+        this.dy = Player.bulletDY;
         this.width = 0.01;
         this.color = 'purple';
     }
@@ -57,15 +61,15 @@ function generateBullet() {
 
 function drawBullets() {
     bullets.forEach((ele) => {
-        ele.yPos -= .01;
+        ele.y -= Player.bulletDY;
 
-        let nonPercentXPos = ele.xPos * c.width;
-        let nonPercentYPos = ele.yPos * c.height;
-        let nonPercentRadius = ele.width * c.width;
+        let bulletXActual = ele.x * c.width;
+        let bulletYActual = ele.y * c.height;
+        let radiusActual = ele.width * c.width;
 
         ctx.fillStyle = ele.color;
         ctx.beginPath();
-        ctx.arc(nonPercentXPos, nonPercentYPos, nonPercentRadius, 0, 2 * Math.PI);
+        ctx.arc(bulletXActual, bulletYActual, radiusActual, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
 
@@ -74,8 +78,8 @@ function drawBullets() {
         if (debug === true) {
             ctx.font = "12px Georgia";
             ctx.fillStyle = 'white';
-            ctx.fillText(('x%: ' + ele.xPos + ' y%: ' + ele.yPos), nonPercentXPos, nonPercentYPos + 40);
-            ctx.fillText(('x No%: ' + nonPercentXPos + ' y No%: ' + nonPercentYPos), nonPercentXPos, nonPercentYPos - 20);
+            ctx.fillText(('x%: ' + ele.xPos + ' y%: ' + ele.yPos), bulletXActual, bulletYActual + 40);
+            ctx.fillText(('x No%: ' + bulletXActual + ' y No%: ' + bulletYActual), bulletXActual, bulletYActual - 20);
 
 
             //draw hitbox? -- enter x, y, w, h

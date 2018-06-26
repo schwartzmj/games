@@ -72,6 +72,11 @@ function drawEverything() {
         checkBulletCollision();
         drawPlayerInfo();
         removeOldBullets();
+        if (debug === true) {
+            ctx.font = "12px Georgia";
+            ctx.fillStyle = 'white';
+            ctx.fillText(('x:' + mousePos.x + ' y:' + mousePos.y), mousePos.x, mousePos.y);
+        }
 };
 
 function moveEverything() {
@@ -110,23 +115,23 @@ function checkBulletCollision() {
             // console.log('bullet xPos: ' + bullet.xPos + ' /enemy xPos: ' + enemy.xPos);
             // console.log('bullet yPos: ' + bullet.yPos + ' /enemy yPos: ' + enemy.yPos);
             let enemyWidth = enemy.width * c.width;
-            let enemyXPos = enemy.xPos * c.width;
-            let enemyYPos = enemy.yPos * c.width;
-            let bulletXPos = bullet.xPos * c.width;
-            let bulletYPos = bullet.yPos * c.height;
-            let enemyHeight = enemyWidth/2;
+            let enemyHeight = enemy.height * c.height;
+            let enemyX = enemy.x * c.width;
+            let enemyY = enemy.y * c.height;
+            let bulletX = bullet.x * c.width;
+            let bulletY = bullet.y * c.height;
 
             if 
-                (((bulletXPos <= (enemyXPos + enemyWidth)) && (bulletXPos >= enemyXPos))
+                (((bulletX <= (enemyX + enemyWidth)) && (bulletX >= enemyX))
                 && 
-                ((bulletYPos <= (enemyYPos + enemyHeight)) && (bulletYPos >= enemyYPos))) 
+                ((bulletY <= (enemyY + enemyHeight)) && (bulletY >= enemyY))) 
             {
-                console.log('Collision debug// bulletXPos: ' + bulletXPos + ' <= enemyxPos + enemyWidth '
-                    + enemyXPos + ' + ' + enemyWidth + "(" + (enemyXPos + enemyWidth) + ") AND bulletXpos: "
-                    + bulletXPos + " is >= enemyXPos: " + enemyXPos);
-                console.log("//AND// bulletYPos: " + bulletYPos + " <= enemyYPos ("
-                    + enemyYPos + "+ enemyHeight(" + enemyHeight + ") (" + (enemyYPos + enemyHeight) +
-                    " AND bulletYPos: " + bulletYPos + " >= enemyYPos: " + enemyYPos);
+                console.log('Collision debug// bulletX: ' + bulletX + ' <= enemyX + enemyWidth '
+                    + enemyX + ' + ' + enemyWidth + "(" + (enemyX + enemyWidth) + ") AND bulletX: "
+                    + bulletX + " is >= enemyX: " + enemyX);
+                console.log("//AND// bulletY: " + bulletY + " <= enemyY ("
+                    + enemyY + "+ enemyHeight(" + enemyHeight + ") (" + (enemyY + enemyHeight) +
+                    " AND bulletY: " + bulletY + " >= enemyY: " + enemyY);
                 console.log("//OBJECTS// ===Enemy:=== " + JSON.stringify(enemy) + " ===Bullet:=== " + JSON.stringify(bullet));
                     let indexBullet = bullets.indexOf(bullet);
                     let indexEnemy = enemies.indexOf(enemy);
