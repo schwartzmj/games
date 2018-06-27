@@ -122,26 +122,28 @@ function removeOldBullets() {
 function checkBulletCollision() {
     bullets.forEach((bullet) => {
         enemies.forEach((enemy) => {
-            // console.log('bullet xPos: ' + bullet.xPos + ' /enemy xPos: ' + enemy.xPos);
-            // console.log('bullet yPos: ' + bullet.yPos + ' /enemy yPos: ' + enemy.yPos);
             let enemyWidth = enemy.width * c.width;
             let enemyHeight = enemy.height * c.height;
             let enemyX = enemy.x * c.width;
             let enemyY = enemy.y * c.height;
             let bulletX = bullet.x * c.width;
             let bulletY = bullet.y * c.height;
-
+console.log(bullet.x,enemy.x,enemy.width);
             if 
-                (((bulletX <= (enemyX + enemyWidth)) && (bulletX >= enemyX))
-                && 
-                ((bulletY <= (enemyY + enemyHeight)) && (bulletY >= enemyY))) 
-            { //collision detected
+                // (((bulletX <= (enemyX + enemyWidth)) && (bulletX >= enemyX))
+                // && 
+                // ((bulletY <= (enemyY + enemyHeight)) && (bulletY >= enemyY)))
+
+                (((bullet.x <= (enemy.x + enemy.width)) && (bullet.x >= enemy.x)) &&
+                ((bullet.y <= (enemy.y + enemy.height)) && (bullet.y >= enemy.y)))
+            { 
+                //collision detected
                 
                 //remove the bullet from the array of bullets
                     let indexBullet = bullets.indexOf(bullet);
                     bullets.splice(indexBullet, 1);
 
-                    //enemy opacity change
+                    //enemy opacity change -- currently unused
                     let percentDamagePerBullet = Bullet.damage / enemy.maxLife;
                     let enemyPercentLife = enemy.life / enemy.maxLife;
 
@@ -183,4 +185,4 @@ generateNewEnemy(basicEnemy);
 setInterval(() => {
     generateNewEnemy(basicEnemy)
 }, 3000);
-setInterval(moveEnemies, 1500);
+// setInterval(moveEnemies, 1500);

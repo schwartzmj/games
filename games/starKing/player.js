@@ -59,7 +59,7 @@ class Bullet {
         this.id = Date.now() + Math.random();
         this.type = type;
         this.spawnTime = Date.now();
-        this.x = Player.playerX;
+        this.x = Player.playerX + Player.playerWidth/2;
         this.y = Player.playerY;
         this.dx = Player.bulletDX;
         this.dy = Player.bulletDY;
@@ -95,6 +95,10 @@ function generateBullet(bulletType) {
 
 function drawBullets() {
     bullets.forEach((ele) => {
+        let bulletXActual = ele.x * c.width;
+        let bulletYActual = ele.y * c.height;
+        let radiusActual = ele.width * c.width;
+         
         if (ele.placement) {
             for (i=0; i<ele.placement; i++) {
                     if (ele.placement % 2 == 0) {
@@ -108,14 +112,11 @@ function drawBullets() {
         }
                 ele.y -= Player.bulletDY * ele.speedModifier;
 
-                let bulletXActual = ele.x * c.width;
-                let bulletYActual = ele.y * c.height;
-                let radiusActual = ele.width * c.width;
-                let playerWidthActual = Player.playerWidth * c.width;
+                
 
                 ctx.fillStyle = ele.color;
                 ctx.beginPath();
-                ctx.arc(bulletXActual+playerWidthActual/2, bulletYActual, radiusActual, 0, 2 * Math.PI);
+                ctx.arc(bulletXActual, bulletYActual, radiusActual, 0, 2 * Math.PI);
                 ctx.stroke();
                 ctx.fill();
 
@@ -124,7 +125,7 @@ function drawBullets() {
             if (debug === true) {
                 ctx.font = "12px Georgia";
                 ctx.fillStyle = 'white';
-                ctx.fillText(('x%: ' + ele.xPos + ' y%: ' + ele.yPos), bulletXActual, bulletYActual + 40);
+                ctx.fillText(('x%: ' + ele.x + ' y%: ' + ele.y), bulletXActual, bulletYActual + 40);
                 ctx.fillText(('x No%: ' + bulletXActual + ' y No%: ' + bulletYActual), bulletXActual, bulletYActual - 20);
 
 
