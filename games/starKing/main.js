@@ -1,5 +1,7 @@
 let c = document.getElementById('canvas');
 let ctx = c.getContext('2d');
+let then = 0;
+let now = 0;
 
 // on window load, start game engine, add event listeners
 window.onload = function() {
@@ -9,6 +11,8 @@ window.onload = function() {
         if (debugPause === false) {
             drawEverything();
             moveEverything();
+            then = Date.now() - now;
+            now = Date.now();
         }
     }, 1000/framesPerSecond);
 
@@ -52,12 +56,18 @@ window.onload = function() {
         document.addEventListener('keydown', function (evt) {
             let keyName = evt.key;
             if (keyName == 'ArrowUp') {
-                generateBullet();
+                generateBullet(basicProjectile);
             } 
+        });
+        document.addEventListener('keydown', function (evt) {
+            let keyName = evt.key;
+            if (keyName == 'ArrowDown') {
+                generateBullet(shotgunProjectile);
+            }
         });
     
         document.addEventListener('touchstart', function (evt) {
-                generateBullet();
+                generateBullet(basicProjectile);
         });
         debugInit();
 };
@@ -125,22 +135,25 @@ function checkBulletCollision() {
                 (((bulletX <= (enemyX + enemyWidth)) && (bulletX >= enemyX))
                 && 
                 ((bulletY <= (enemyY + enemyHeight)) && (bulletY >= enemyY))) 
-            {
-                console.log('Collision debug// bulletX: ' + bulletX + ' <= enemyX + enemyWidth '
-                    + enemyX + ' + ' + enemyWidth + "(" + (enemyX + enemyWidth) + ") AND bulletX: "
-                    + bulletX + " is >= enemyX: " + enemyX);
-                console.log("//AND// bulletY: " + bulletY + " <= enemyY ("
-                    + enemyY + "+ enemyHeight(" + enemyHeight + ") (" + (enemyY + enemyHeight) +
-                    " AND bulletY: " + bulletY + " >= enemyY: " + enemyY);
-                console.log("//OBJECTS// ===Enemy:=== " + JSON.stringify(enemy) + " ===Bullet:=== " + JSON.stringify(bullet));
+            { //collision detected
+                
+                //remove the bullet from the array of bullets
                     let indexBullet = bullets.indexOf(bullet);
-                    let indexEnemy = enemies.indexOf(enemy);
                     bullets.splice(indexBullet, 1);
 
-                    Player.score += enemy.points;
-                    
-                    clearInterval(enemy.id);
-                    enemies.splice(indexEnemy, 1);
+                    //enemy opacity change
+                    let percentDamagePerBullet = Bullet.damage / enemy.maxLife;
+                    let enemyPercentLife = enemy.life / enemy.maxLife;
+
+                enemy.life -= bullet.damage;
+                    if (enemy.life <= 0) {
+
+                        Player.score += enemy.points;
+
+                        let indexEnemy = enemies.indexOf(enemy);
+                        clearInterval(enemy.id);
+                        enemies.splice(indexEnemy, 1);
+                    }
             }
         })
     })
@@ -170,5 +183,5 @@ function drawPlayerInfo() {
 generateNewEnemy(basicEnemy);
 setInterval(() => {
     generateNewEnemy(basicEnemy)
-}, 8000);
+}, 3000);
 setInterval(moveEnemies, 1500);

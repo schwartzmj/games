@@ -18,7 +18,7 @@ let basicEnemy = {
     'fireRate': 2000,
     'damage': 1,
     'points': 1,
-    'life': 1
+    'life': 3
 };
 
 let fastEnemy = {
@@ -62,15 +62,21 @@ function drawEnemies() {
         //draw the enemy
         ctx.fillRect(enemyXActual, enemyYActual,
             enemyWidthActual, enemyHeightActual);
+        // write enemy HP at middle of enemy
+        ctx.font = (enemyWidthActual*0.1 + "px Georgia");
+        ctx.fillStyle = 'black';
+        ctx.fillText(ele.life.toFixed(1) + "/" + ele.maxLife + " " +
+            Math.floor(ele.life/ele.maxLife*100) + "%",
+            enemyXActual+enemyWidthActual/3, enemyYActual+enemyHeightActual/1.75);
 
 
         //DEBUGGING
-        if (debug === true) {
-        ctx.font = "12px Georgia";
-        ctx.fillStyle = 'white';
-        ctx.fillText(('x%: ' + ele.x + ' y%: ' + ele.y), enemyXActual, enemyYActual + 120);
-        ctx.fillText(('x No%: ' + enemyXActual  + ' y No%: ' + enemyYActual), enemyXActual, enemyYActual - 20);
-        }
+        // if (debug === true) {
+        // ctx.font = "12px Georgia";
+        // ctx.fillStyle = 'white';
+        // ctx.fillText(('x%: ' + ele.x + ' y%: ' + ele.y), enemyXActual, enemyYActual + 120);
+        // ctx.fillText(('x No%: ' + enemyXActual  + ' y No%: ' + enemyYActual), enemyXActual, enemyYActual - 20);
+        // }
     })
 };
 
@@ -95,7 +101,7 @@ function drawEnemyProjectiles() {
     enemyProjectiles.forEach((ele) => {
         ele.y += ele.dy;
         // this += ele.dx wont be helpful if we dont change it to something useful
-        // possibly using an if statement to hone in on the player?
+        // possibly using an if statement to home in on the player?
         if (ele.x !== 0) {
             if (ele.x <= Player.playerX) {
                 ele.x += ele.dx;
@@ -155,9 +161,7 @@ class Enemy {
         // points for killing and HP
         this.points = points;
         this.life = life;
-        // legacy
-        // this.xPos = x;
-        // this.yPos = y;
+        this.maxLife = life;
     }
     newEnemyProjectile() {
         // start by make starting x coord for projectile the center of enemy
