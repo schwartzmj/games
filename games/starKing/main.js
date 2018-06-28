@@ -3,6 +3,7 @@ let ctx = c.getContext('2d');
 let then = 0;
 let now = 0;
 
+
 // on window load, start game engine, add event listeners
 window.onload = function() {
     // game engine / tick rate
@@ -86,7 +87,7 @@ function drawEverything() {
             ctx.font = "12px Georgia";
             ctx.fillStyle = 'white';
             ctx.fillText(('x:' + mousePos.x + ' y:' + mousePos.y), mousePos.x, mousePos.y);
-        }
+        };
 };
 
 function moveEverything() {
@@ -186,3 +187,8 @@ setInterval(() => {
     generateNewEnemy(basicEnemy)
 }, 3000);
 // setInterval(moveEnemies, 1500);
+
+
+
+
+
