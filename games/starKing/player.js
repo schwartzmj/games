@@ -5,7 +5,7 @@ playerSprite.addEventListener('load', function() {
 })
 
 let basicProjectile = {
-    projectile: true,
+    projectile: 'yes',
     'type': 'basic',
     'size': 0.01,
     'display': 'purple',
@@ -16,7 +16,7 @@ let basicProjectile = {
 };
 
 let shotgunProjectile = {
-    projectile: true,
+    projectile: 'yes',
     'type': 'shotgun',
     'size': 0.005,
     'display': 'white',
@@ -103,9 +103,9 @@ let Bindings = {
     }
 };
 
-function useInventory(inventorySlotNumber) {
-    checkKeyBindingCooldown(Player.inventory[inventorySlotNumber]);
-};
+// function useInventory(inventorySlotNumber) {
+//     checkKeyBindingCooldown(Player.inventory[inventorySlotNumber]);
+// };
 
 
 function checkKeyBindingCooldown(inventoryItem) {
@@ -125,7 +125,8 @@ function useInventory(inventoryItemNum) {
     let keyBindingCooldownCheck = checkKeyBindingCooldown(inventoryItem);
     console.log('offcooldown check results: ' + keyBindingCooldownCheck);
     if (keyBindingCooldownCheck === 'offCooldown') {
-        if (inventoryItem.projectile === true) {
+        if ((inventoryItem.projectile === 'yes') && (keyBindingCooldownCheck === 'offCooldown')) {
+            console.log('======made it through check=======');
             generatePlayerProjectile(inventoryItem);
         };
     } else {
@@ -146,6 +147,7 @@ function generatePlayerProjectile(inventoryItem) {
     } else {
         bullets.push(newBullet);
     };
+    console.log('setting ' + inventoryItem.lastUseTime + ' to: ' + now);
     inventoryItem.lastUseTime = now;
 }
 
