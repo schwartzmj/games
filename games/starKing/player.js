@@ -1,65 +1,51 @@
-let Player = {
-    'playerWidth': 0.05,
-    'playerHeight': 0.05,
-    'playerX': 0.5,
-    'playerY': 0.5,
-    'bulletDX': .0005,
-    'bulletDY': .005,
-    'playerSpeed': 0.005,
-    'playerColor': 'blue',
-    'life': 1000,
-    'score': 0
-};
-
-let keyMap = {
-    'up': false,
-    'down': false,
-    'left': false,
-    'right': false
-};
-
-let bullets = [];
+let playerSprite = new Image();
+playerSprite.src = 'images/x-wing.png';
+playerSprite.addEventListener('load', function() {
+    ctx.drawImage(playerSprite, Player.playerX, Player.playerY, Player.playerWidth, Player.playerHeight);
+})
 
 let basicProjectile = {
+    projectile: true,
     'type': 'basic',
     'size': 0.01,
     'display': 'purple',
-    'damage': 1,
-    'speedModifier': 1
+    'damage': 3,
+    'speedModifier': 1,
+    'cooldown': 3000,
+    lastUseTime: 0
 };
 
 let shotgunProjectile = {
+    projectile: true,
     'type': 'shotgun',
     'size': 0.005,
     'display': 'white',
     'damage': 0.25,
     'numberOf': 6,
-    'speedModifier': 2
+    'speedModifier': 2,
+    'cooldown': 500,
+    lastUseTime: 0
 };
 
-function drawPlayer() {
-    // To be responsive:
-    // player X and Y coordinates are values from 0-1 (e.g. 0.5 0.284)
-    // player Speed is also a value (e.g. 0.005 (5%))
-    // here, we are converting these percentages into actual number coordinates on canvas
-    let playerXFromPercentToActual = Player.playerX * c.width;
-    let playerYFromPercentToActual = Player.playerY * c.height;
-    // same for player width and height
-    let playerWidthFromPercentToActual = Player.playerWidth * c.width;
-    // let playerHeightFromPercentToActual = Player.playerHeight * c.height;
-    // draw it
-    ctx.fillStyle = Player.playerColor;
-    ctx.fillRect(playerXFromPercentToActual, playerYFromPercentToActual,
-        playerWidthFromPercentToActual, playerWidthFromPercentToActual / 2);
-    ctx.fill();
-};
+function useBinding(binding) {
+    binding();
+}
+
+let bullets = [];
 
 class Bullet {
-    constructor({type, size, display, damage, numberOf, speedModifier}) {
+    constructor({
+        type,
+        size,
+        display,
+        damage,
+        numberOf,
+        speedModifier,
+    }) {
         this.id = Date.now() + Math.random();
         this.type = type;
         this.spawnTime = Date.now();
-        this.x = Player.playerX + Player.playerWidth/2;
+        this.x = Player.playerX + Player.playerWidth / 2;
         this.y = Player.playerY;
         this.dx = Player.bulletDX;
         this.dy = Player.bulletDY;
@@ -78,18 +64,158 @@ class DuplicateBullet extends Bullet {
     };
 };
 
+let Player = {
+    'playerWidth': 0.05,
+    'playerHeight': 0.05,
+    'playerX': 0.5,
+    'playerY': 0.5,
+    'bulletDX': .0005,
+    'bulletDY': .005,
+    'playerSpeed': 0.005,
+    'playerColor': 'blue',
+    'life': 1000,
+    'score': 0,
+    'cooldownModifier': 1,
+    inventory: [
+        basicProjectile,
+        shotgunProjectile
+    ]
+};
 
-function generateBullet(bulletType) {
-    let newBullet = new Bullet(bulletType);
+let Bindings = {
+    playerUp: () => {
+        Player.playerY -= Player.playerSpeed
+    },
+    playerDown: () => {
+        Player.playerY += Player.playerSpeed
+    },
+    playerLeft: () => {
+        Player.playerX -= Player.playerSpeed
+    },
+    playerRight: () => {
+        Player.playerX += Player.playerSpeed
+    },
+    useInventory0: () => {
+        useInventory(0)
+    },
+    useInventory1: () => {
+        useInventory(1)
+    }
+};
+
+function useInventory(inventorySlotNumber) {
+    checkKeyBindingCooldown(Player.inventory[inventorySlotNumber]);
+};
+
+
+function checkKeyBindingCooldown(inventoryItem) {
+    let dTime = (now - inventoryItem.lastUseTime) * framesPerSecond;
+    console.log('dTime: ' + dTime + ' invItemCD: ' + inventoryItem.cooldown);
+    if (dTime >= inventoryItem.cooldown) {
+        return 'offCooldown';
+    } else {
+        return 'onCooldown';
+    }
+};
+
+function useInventory(inventoryItemNum) {
+
+    ////WHY DOESNT THIS WORK
+    let inventoryItem = Player.inventory[inventoryItemNum];
+    let keyBindingCooldownCheck = checkKeyBindingCooldown(inventoryItem);
+    console.log('offcooldown check results: ' + keyBindingCooldownCheck);
+    if (keyBindingCooldownCheck === 'offCooldown') {
+        if (inventoryItem.projectile === true) {
+            generatePlayerProjectile(inventoryItem);
+        };
+    } else {
+    console.log('FAILED COOLDOWN CHECK');
+    };
+};
+
+function generatePlayerProjectile(inventoryItem) {
+    // ===============================  //
+    //  THIS USED TO BE "generateBullet()"
+    // ===============================  //
+    let newBullet = new Bullet(inventoryItem);
     if (newBullet.numberOf > 0) {
-        for (i=0; i<newBullet.numberOf; i++) {
-            let newBulletDuplicate = new DuplicateBullet(bulletType, i);
+        for (i = 0; i < newBullet.numberOf; i++) {
+            let newBulletDuplicate = new DuplicateBullet(inventoryItem, i);
             bullets.push(newBulletDuplicate);
-        } 
+        }
     } else {
         bullets.push(newBullet);
     };
+    inventoryItem.lastUseTime = now;
+}
+
+//keyMap helps with telling us what keys the user is pressing AND
+// also helps assign inventory to keys (use items/shoot bullets)
+let keyMap = {
+    w: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: Bindings.playerUp
+    },
+    s: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: Bindings.playerDown,
+        use: (binding) => {
+            keyMap[binding].binding
+        }
+    },
+    a: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: Bindings.playerLeft
+    },
+    d: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: Bindings.playerRight
+    },
+    ArrowUp: {
+        cooldown: () => {checkKeyBindingCooldown(binding)},
+        isPressed: false,
+        lastPressTime: 0,
+        binding: Bindings.useInventory0,
+        // use: (lastPressTime, binding) => {useBinding(lastPressTime, binding)}
+        use: (binding) => {
+            useBinding(binding)
+        }
+    },
+    ArrowDown: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: Bindings.useInventory1,
+        //this is confusing, but in "moveEverything()", we call "Use" and tell it to run the function
+        // tied to the key "binding". we do NOT call "binding" by itself, like you would think,
+        // because after the arrow function for "use", we can pass it parameters
+        use: (binding) => {
+            Player.useInventory(binding)
+        }
+    },
+    ArrowLeft: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: () => console.log('placeholder')
+    },
+    ArrowRight: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: () => console.log('placeholder')
+    }
 };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -134,4 +260,29 @@ function drawBullets() {
                 //    w, h);
                 };
     })
+};
+
+
+
+function drawPlayer() {
+    // To be responsive:
+    // player X and Y coordinates are values from 0-1 (e.g. 0.5 0.284)
+    // player Speed is also a value (e.g. 0.005 (5%))
+    // here, we are converting these percentages into actual number coordinates on canvas
+    let playerXFromPercentToActual = Player.playerX * c.width;
+    let playerYFromPercentToActual = Player.playerY * c.height;
+    // same for player width and height
+    let playerWidthFromPercentToActual = Player.playerWidth * c.width;
+    let playerHeightFromPercentToActual = Player.playerHeight * c.height;
+    // draw it
+    if (debug === true) {
+        ctx.fillStyle = Player.playerColor;
+    } else {
+        ctx.fillStyle = 'transparent';
+    }
+
+    ctx.fillRect(playerXFromPercentToActual, playerYFromPercentToActual,
+        playerWidthFromPercentToActual, playerWidthFromPercentToActual / 2);
+    ctx.fill();
+    ctx.drawImage(playerSprite, playerXFromPercentToActual, playerYFromPercentToActual, playerWidthFromPercentToActual, playerHeightFromPercentToActual);
 };

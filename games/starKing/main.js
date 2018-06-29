@@ -1,81 +1,49 @@
 let c = document.getElementById('canvas');
 let ctx = c.getContext('2d');
 let then = 0;
-let now = 0;
+let now = getNow();
+let framesPerSecond = 60;
+
+function getNow() {
+    let dateNow = Date.now();
+    return dateNow;
+}
+
 
 
 // on window load, start game engine, add event listeners
 window.onload = function() {
     // game engine / tick rate
-    let framesPerSecond = 60;
     setInterval(()=>{
         if (debugPause === false) {
             drawEverything();
             moveEverything();
-            then = Date.now() - now;
+            then = now;
             now = Date.now();
         }
     }, 1000/framesPerSecond);
 
-    // move player event listeners (WASD)
+    // keydown event listeners
     document.addEventListener('keydown', function(evt) {
         let keyName = evt.key;
-
-        switch (keyName) {
-            case 'w':
-                keyMap.up = true;
-                break;
-            case 's':
-                keyMap.down = true;
-                break;
-            case 'a':
-                keyMap.left = true;
-                break;
-            case 'd':
-                keyMap.right = true;
-                break;
-        }
+        if (keyMap.hasOwnProperty(keyName)) {
+            keyMap[keyName].isPressed = true;
+        };
     });
-        document.addEventListener('keyup', function (evt) {
-            let keyName = evt.key;
-
-            switch (keyName) {
-                case 'w':
-                    keyMap.up = false;
-                    break;
-                case 's':
-                    keyMap.down = false;
-                    break;
-                case 'a':
-                    keyMap.left = false;
-                    break;
-                case 'd':
-                    keyMap.right = false;
-                    break;
-            }
-        });
-        document.addEventListener('keydown', function (evt) {
-            let keyName = evt.key;
-            if (keyName == 'ArrowUp') {
-                generateBullet(basicProjectile);
-            } 
-        });
-        document.addEventListener('keydown', function (evt) {
-            let keyName = evt.key;
-            if (keyName == 'ArrowDown') {
-                generateBullet(shotgunProjectile);
-            }
-        });
-    
-        document.addEventListener('touchstart', function (evt) {
-                generateBullet(basicProjectile);
-        });
-        debugInit();
-};
+    // keyup event listeners
+    document.addEventListener('keyup', function (evt) {
+        let keyName = evt.key;
+        if (keyMap.hasOwnProperty(keyName)) {
+            keyMap[keyName].isPressed = false;
+        };
+    });
+    debugInit();
+}
 
 function drawEverything() {
         c.width = window.innerWidth;
         c.height = window.innerHeight;
+        ctx.clearRect(0,0,c.width,c.height);
         drawPlayer();
         drawEnemies();
         drawBullets();
@@ -91,18 +59,21 @@ function drawEverything() {
 };
 
 function moveEverything() {
-        if (keyMap.up) {
-            Player.playerY -= Player.playerSpeed;
+    Object.keys(keyMap).forEach((key) => {
+        if (keyMap[key].isPressed === true) {
+
+        keyMap[key].binding();
+
+
+
+            // checkObjectCooldown(keyMap[key].)
+            // let lastPressTime = keyMap[key].lastPressTime;
+            // let binding = keyMap[key].binding;
+            // console.log(binding);
+            // keyMap[key].use(lastPressTime, binding);
+            // keyMap[key].use(binding);
         }
-        if (keyMap.down) {
-            Player.playerY += Player.playerSpeed;
-        }
-        if (keyMap.left) {
-            Player.playerX -= Player.playerSpeed;
-        }
-        if (keyMap.right) {
-            Player.playerX += Player.playerSpeed;
-        }
+    });
 };
 
 function removeOldBullets() {
@@ -129,7 +100,6 @@ function checkBulletCollision() {
             let enemyY = enemy.y * c.height;
             let bulletX = bullet.x * c.width;
             let bulletY = bullet.y * c.height;
-console.log(bullet.x,enemy.x,enemy.width);
             if 
                 // (((bulletX <= (enemyX + enemyWidth)) && (bulletX >= enemyX))
                 // && 
