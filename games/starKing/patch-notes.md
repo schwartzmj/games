@@ -1,6 +1,9 @@
 <h1>6/30/18</h1>
 <ul>
 <li>
+Added <strong>player accuracy tracking</strong>. This includes shots hit, shots fired, shots missed and a function calculating accuracy as a percentage.
+</li>
+<li>
 Added <strong>Patch Notes</strong> and Patch Notes functionality. Located in debug menu.
 </li>
 <li>
@@ -16,6 +19,9 @@ Added ability to use <strong>sprites for player projectiles</strong>. Added plac
 <h1>6/29/18</h1>
 <ul>
 <li>
+Added <strong> enemy health bars</strong>.
+</li>
+<li>
 Added <strong> enemy sprite </strong> functionality. Added two sprites.
 </li>
 <li>
@@ -29,4 +35,10 @@ Fixed <strong>timer bug</strong> not counting accurately, which affected cooldow
 </li>
 <li>
 <strong>Many</strong> other code improvements.
+</ul>
+<h1>6/24/18 - 6/28/18</h1>
+<ul>
+<li>
+Didn't have patch note functionality :^)
+</li>
 </ul>

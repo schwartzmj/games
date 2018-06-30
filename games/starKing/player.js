@@ -38,6 +38,14 @@ function useBinding(binding) {
 }
 
 let bullets = [];
+let firedShots = 0;
+let hitShots = 0;
+let missedShots = 0;
+let accuracy = 0;
+
+function calculateShotAccuracy() {
+    accuracy = ((hitShots / firedShots) * 100).toFixed(0);
+}
 
 class Bullet {
     constructor({
@@ -203,9 +211,11 @@ function generatePlayerProjectile(inventoryItem) {
         for (i = 0; i < newBullet.numberOf; i++) {
             let newBulletDuplicate = new DuplicateBullet(inventoryItem, i);
             bullets.push(newBulletDuplicate);
+            firedShots += 1;
         }
     } else {
         bullets.push(newBullet);
+        firedShots += 1;
     };
     inventoryItem.lastUseTime = now;
 }

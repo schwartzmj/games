@@ -66,7 +66,9 @@ function removeOldBullets() {
         if (ele.y <= 0) {
             let index = bullets.indexOf(ele);
             bullets.splice(index, 1);
-        }
+            missedShots +=1;
+            calculateShotAccuracy();
+        };
     });
     enemyProjectiles.forEach((ele) => {
         if (ele.y >= 1) {
@@ -107,10 +109,11 @@ function checkBulletCollision() {
                 //remove the bullet from the array of bullets
                 let indexBullet = bullets.indexOf(bullet);
                 bullets.splice(indexBullet, 1);
+                hitShots += 1;
+                calculateShotAccuracy();
 
                 enemy.life -= bullet.damage;
                 if (enemy.life <= 0) {
-
                     Player.score += enemy.points;
 
                     let indexEnemy = enemies.indexOf(enemy);
@@ -118,8 +121,8 @@ function checkBulletCollision() {
                     enemies.splice(indexEnemy, 1);
                 }
             }
-        })
-    })
+        });
+    });
     enemyProjectiles.forEach((enemyBullet) => {
         if (collisionMath(enemyBullet, Player)) {
             let indexEnemyBullet = enemyProjectiles.indexOf(enemyBullet);
@@ -136,8 +139,15 @@ function drawPlayerInfo() {
     ctx.fillStyle = 'white';
     ctx.fillText('Life: ' + Player.life, 10, 40);
     ctx.fillText('Score: ' + Player.score, 10, 60);
-    ctx.font="12px Georgia";
-    ctx.fillText('WASD to move. NumPad 4, 5 and 9 for weapons', 10, 80);
+
+    ctx.fillText('Accuracy: ' + accuracy + '%', 10, 80);
+    ctx.font = "12px Georgia";
+    ctx.fillText('Shots hit: ' + hitShots, 10, 100);
+    ctx.fillText('Shots fired: ' + firedShots, 10, 120);
+
+    ctx.fillStyle = 'yellow';
+    ctx.font = "14px Georgia";
+    ctx.fillText('WASD to move. NumPad 4, 5 and 9 for weapons', 10, 140);
 };
 
 
