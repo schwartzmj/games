@@ -1,6 +1,12 @@
 <h1>6/30/18</h1>
 <ul>
 <li>
+Added <strong>Schwartz X playable rocket</strong>. Currently a beta feature found in the debug menu.
+</li>
+<li>
+Added <strong>Ion Blast</strong> projectile. <strong>Replaces meatballShot</strong>.
+</li>
+<li>
 Added <strong>sound</strong> functionality and a few placeholders.
 </li>
 <li>

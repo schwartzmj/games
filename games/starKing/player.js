@@ -23,17 +23,32 @@ let shotgunProjectile = {
     sound: () => {fireSound.play();}
 };
 
-let meatballShot = {
+let ionBlast = {
     projectile: 'yes',
     'type': 'basic',
     'size': 0.05,
-    'display': greyBulletSprite,
+    'display': ionBlastSprite,
     'damage': 50,
     'numberOf': 0,
     'speedModifier': 0.25,
     'cooldown': 10000,
     lastUseTime: 0,
     sound: () => {tripSound.play();}
+};
+
+let laser = {
+    projectile: 'yes',
+    'type': 'basic',
+    'size': 0.05,
+    'display': greyBulletSprite,
+    'damage': 1,
+    'numberOf': 0,
+    'speedModifier': 5,
+    'cooldown': 0,
+    lastUseTime: 0,
+    sound: () => {
+        fireSound.play();
+    }
 };
 
 function useBinding(binding) {
@@ -89,14 +104,15 @@ let Player = {
     'bulletDX': .0005,
     'bulletDY': .005,
     'playerSpeed': 0.005,
-    'playerColor': 'blue',
+    display: playerSprite,
     'life': 1000,
     'score': 0,
     'cooldownModifier': 1,
     inventory: [
         basicProjectile,
         shotgunProjectile,
-        meatballShot
+        ionBlast,
+        laser
     ]
 };
 
@@ -175,6 +191,9 @@ let Bindings = {
     },
     useInventory2: () => {
         useInventory(2)
+    },
+    useInventory3: () => {
+        useInventory(3)
     }
 };
 
@@ -260,7 +279,7 @@ let keyMap = {
     8: {
         isPressed: false,
         lastPressTime: 0,
-        binding: () => console.log('placeholder')
+        binding: Bindings.useInventory3
     },
     7: {
         isPressed: false,
@@ -355,12 +374,12 @@ function drawPlayer() {
     let eleC = getEleCanvasActualFromPercent(Player);
     
     if (debug === true) {
-        ctx.fillStyle = Player.playerColor;
+        ctx.fillStyle = 'blue';
     } else {
         ctx.fillStyle = 'transparent';
     }
 
     ctx.fillRect(eleC.x, eleC.y,
         eleC.width, eleC.height);
-    ctx.drawImage(playerSprite, eleC.x, eleC.y, eleC.width, eleC.height);
+    ctx.drawImage(Player.display, eleC.x, eleC.y, eleC.width, eleC.height);
 };

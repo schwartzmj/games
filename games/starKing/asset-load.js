@@ -5,6 +5,12 @@ playerSprite.addEventListener('load', function () {
     ctx.drawImage(playerSprite, Player.x, Player.y, Player.width, Player.height);
 });
 
+let schwartzXSprite = new Image();
+schwartzXSprite.src = 'images/schwartz-x.png';
+schwartzXSprite.addEventListener('load', function () {
+    ctx.drawImage(playerSprite, Player.x, Player.y, Player.width, Player.height);
+});
+
 // enemy sprites
 let fastEnemySprite = new Image();
 fastEnemySprite.src = 'images/tie-fighter.png';
@@ -25,6 +31,11 @@ greyBulletSprite.addEventListener('load', function () {
     ctx.drawImage(greyBulletSprite, 0, 0, 0, 0);
 });
 
+let ionBlastSprite = new Image();
+ionBlastSprite.src = 'images/ion-blast.png';
+ionBlastSprite.addEventListener('load', function () {
+    ctx.drawImage(ionBlastSprite, 0, 0, 0, 0);
+});
 
 //========//
 // Sounds //

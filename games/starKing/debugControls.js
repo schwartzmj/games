@@ -73,3 +73,20 @@ let patchNotes = '';
 function reqListener() {
     patchNotes = this.responseText;
 };
+
+
+
+
+let schwartzXDebug = document.getElementById('schwartzX');
+schwartzXDebug.addEventListener('click', function () {
+    Player.display = schwartzXSprite;
+    Player.height = 0.1;
+    Player.width = 0.0258737317;
+    Player.playerSpeed = 0.008;
+
+    debugMenu.style.display = "none";
+    debug = false;
+
+    //ratio: height * 0.258737317 for width
+
+});
