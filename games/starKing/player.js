@@ -243,7 +243,6 @@ let keyMap = {
         binding: Bindings.playerRight
     },
     9: {
-        cooldown: () => {checkKeyBindingCooldown(binding)},
         isPressed: false,
         lastPressTime: 0,
         binding: Bindings.useInventory2

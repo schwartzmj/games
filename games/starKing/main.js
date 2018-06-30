@@ -143,7 +143,7 @@ function drawPlayerInfo() {
     ctx.fillText('Life: ' + Player.life, 10, 40);
     ctx.fillText('Score: ' + Player.score, 10, 60);
     ctx.font="12px Georgia";
-    ctx.fillText('WASD to move. ArrowUp&ArrowDown to fire', 10, 80);
+    ctx.fillText('WASD to move. NumPad 4, 5 and 9 for weapons', 10, 80);
 };
 
 
