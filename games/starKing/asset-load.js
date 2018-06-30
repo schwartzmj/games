@@ -37,6 +37,27 @@ ionBlastSprite.addEventListener('load', function () {
     ctx.drawImage(ionBlastSprite, 0, 0, 0, 0);
 });
 
+let arrowHeadSprite = new Image();
+arrowHeadSprite.src = 'images/arrow-head.png';
+arrowHeadSprite.addEventListener('load', function () {
+    ctx.drawImage(arrowHeadSprite, 0, 0, 0, 0);
+});
+
+// power ups
+
+let healthPackSprite = new Image();
+healthPackSprite.src = 'images/health-pack.png';
+healthPackSprite.addEventListener('load', function () {
+    ctx.drawImage(healthPackSprite, 0, 0, 0, 0);
+});
+
+
+
+
+
+
+
+
 //========//
 // Sounds //
 //========//

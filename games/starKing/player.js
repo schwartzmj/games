@@ -2,12 +2,13 @@ let basicProjectile = {
     projectile: 'yes',
     'type': 'basic',
     'size': 0.01,
-    'display': greyBulletSprite,
+    'display': ionBlastSprite,
     'damage': 3,
     'speedModifier': 1,
     'cooldown': 1000,
     lastUseTime: 0,
-    sound: () => {fireSound.play();}
+    sound: () => {fireSound.play();},
+    name: 'Basic Shot'
 };
 
 let shotgunProjectile = {
@@ -20,7 +21,8 @@ let shotgunProjectile = {
     'speedModifier': 2,
     'cooldown': 500,
     lastUseTime: 0,
-    sound: () => {fireSound.play();}
+    sound: () => {fireSound.play();},
+    name: 'Shotgun'
 };
 
 let ionBlast = {
@@ -33,7 +35,8 @@ let ionBlast = {
     'speedModifier': 0.25,
     'cooldown': 10000,
     lastUseTime: 0,
-    sound: () => {tripSound.play();}
+    sound: () => {tripSound.play();},
+    name: 'Ion Blast'
 };
 
 let laser = {
@@ -46,14 +49,23 @@ let laser = {
     'speedModifier': 5,
     'cooldown': 0,
     lastUseTime: 0,
-    sound: () => {
-        fireSound.play();
-    }
+    sound: () => {fireSound.play();},
+    name: 'Laser'
 };
 
-function useBinding(binding) {
-    binding();
-}
+let arrowHead = {
+    projectile: 'yes',
+    'type': 'basic',
+    'size': 0.008,
+    'display': arrowHeadSprite,
+    'damage': 1,
+    'numberOf': 0,
+    'speedModifier': 2,
+    'cooldown': 200,
+    lastUseTime: 0,
+    sound: () => {fireSound.play();},
+    name: 'Arrowhead'
+};
 
 let bullets = [];
 let firedShots = 0;
@@ -112,7 +124,8 @@ let Player = {
         basicProjectile,
         shotgunProjectile,
         ionBlast,
-        laser
+        laser,
+        arrowHead
     ]
 };
 
@@ -136,6 +149,7 @@ function drawInventory() {
         ctx.fillStyle = 'lightgreen';
     };
     timeOffCooldown /= 1000;
+    
     ctx.fillText(timeOffCooldown.toFixed(1), inventoryStart+=inventoryXGap, yActual + heightActual * 1.5);
     });
 };
@@ -194,6 +208,9 @@ let Bindings = {
     },
     useInventory3: () => {
         useInventory(3)
+    },
+    useInventory4: () => {
+        useInventory(4)
     }
 };
 
@@ -284,7 +301,7 @@ let keyMap = {
     7: {
         isPressed: false,
         lastPressTime: 0,
-        binding: () => console.log('placeholder')
+        binding: Bindings.useInventory4
     },
     6: {
         isPressed: false,

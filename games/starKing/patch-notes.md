@@ -1,6 +1,9 @@
 <h1>6/30/18</h1>
 <ul>
 <li>
+Added temporary <strong>inventory list</strong> to player info (top left).
+</li>
+<li>
 Added <strong>Schwartz X playable rocket</strong>. Currently a beta feature found in the debug menu.
 </li>
 <li>

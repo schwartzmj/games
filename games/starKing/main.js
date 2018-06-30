@@ -148,7 +148,20 @@ function drawPlayerInfo() {
 
     ctx.fillStyle = 'yellow';
     ctx.font = "14px Georgia";
-    ctx.fillText('WASD to move. NumPad 4, 5 and 9 for weapons', 10, 140);
+    ctx.fillText('WASD to move. NumPad to use inventory', 10, 140);
+    //inventory placeholder
+    let inventoryStart = 160;
+    ctx.fillStyle = 'lightblue';
+    ctx.font = "18px Georgia";
+    ctx.fillText('Inventory:', 10, inventoryStart);
+
+    Player.inventory.forEach((item) => {
+        inventoryStart += 20;
+        ctx.fillStyle = 'orange';
+        ctx.font = "14px Georgia";
+        console.log(item)
+        ctx.fillText(item.name, 30, inventoryStart);
+    })
 };
 
 
