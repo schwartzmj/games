@@ -1,6 +1,9 @@
 <h1>6/30/18</h1>
 <ul>
 <li>
+Added <strong>sound</strong> functionality and a few placeholders.
+</li>
+<li>
 Added <strong>player accuracy tracking</strong>. This includes shots hit, shots fired, shots missed and a function calculating accuracy as a percentage.
 </li>
 <li>

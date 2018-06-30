@@ -24,3 +24,20 @@ greyBulletSprite.src = 'images/grey-bullet.png';
 greyBulletSprite.addEventListener('load', function () {
     ctx.drawImage(greyBulletSprite, 0, 0, 0, 0);
 });
+
+
+//========//
+// Sounds //
+//========//
+
+const fireSound = new Howl({
+    src: ['sounds/pop.mp3']
+});
+
+const tripSound = new Howl({
+    src: ['sounds/trip.mp3']
+});
+
+const cokezsSound = new Howl({
+    src: ['sounds/cokezs.mp3']
+});

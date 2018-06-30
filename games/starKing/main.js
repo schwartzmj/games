@@ -31,6 +31,7 @@ window.onload = function() {
         };
     });
     debugInit();
+    cokezsSound.play()
 }
 
 function drawEverything() {

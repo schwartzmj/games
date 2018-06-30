@@ -6,7 +6,8 @@ let basicProjectile = {
     'damage': 3,
     'speedModifier': 1,
     'cooldown': 1000,
-    lastUseTime: 0
+    lastUseTime: 0,
+    sound: () => {fireSound.play();}
 };
 
 let shotgunProjectile = {
@@ -18,7 +19,8 @@ let shotgunProjectile = {
     'numberOf': 6,
     'speedModifier': 2,
     'cooldown': 500,
-    lastUseTime: 0
+    lastUseTime: 0,
+    sound: () => {fireSound.play();}
 };
 
 let meatballShot = {
@@ -29,8 +31,9 @@ let meatballShot = {
     'damage': 50,
     'numberOf': 0,
     'speedModifier': 0.25,
-    'cooldown': 30000,
-    lastUseTime: 0
+    'cooldown': 10000,
+    lastUseTime: 0,
+    sound: () => {tripSound.play();}
 };
 
 function useBinding(binding) {
@@ -212,10 +215,13 @@ function generatePlayerProjectile(inventoryItem) {
             let newBulletDuplicate = new DuplicateBullet(inventoryItem, i);
             bullets.push(newBulletDuplicate);
             firedShots += 1;
+            inventoryItem.sound();
         }
     } else {
         bullets.push(newBullet);
         firedShots += 1;
+        fireSound.play();
+        inventoryItem.sound();
     };
     inventoryItem.lastUseTime = now;
 }
