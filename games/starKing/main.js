@@ -151,6 +151,9 @@ generateNewEnemy(basicEnemy);
 setInterval(() => {
     generateNewEnemy(basicEnemy)
 }, 3000);
+setInterval(() => {
+    generateNewEnemy(fastEnemy)
+}, 5000);
 // setInterval(moveEnemies, 1500);
 
 
