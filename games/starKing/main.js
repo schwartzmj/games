@@ -17,7 +17,6 @@ window.onload = function() {
 
     // keydown event listeners
     document.addEventListener('keydown', function(evt) {
-        console.log(evt.key);
         let keyName = evt.key;
         if (keyMap.hasOwnProperty(keyName)) {
             keyMap[keyName].isPressed = true;
@@ -159,7 +158,6 @@ function drawPlayerInfo() {
         inventoryStart += 20;
         ctx.fillStyle = 'orange';
         ctx.font = "14px Georgia";
-        console.log(item)
         ctx.fillText(item.name, 30, inventoryStart);
     })
 };

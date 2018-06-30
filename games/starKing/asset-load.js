@@ -43,6 +43,12 @@ arrowHeadSprite.addEventListener('load', function () {
     ctx.drawImage(arrowHeadSprite, 0, 0, 0, 0);
 });
 
+let laserSprite = new Image();
+laserSprite.src = 'images/laser.png';
+laserSprite.addEventListener('load', function () {
+    ctx.drawImage(laserSprite, 0, 0, 0, 0);
+});
+
 // power ups
 
 let healthPackSprite = new Image();
@@ -72,4 +78,8 @@ const tripSound = new Howl({
 
 const cokezsSound = new Howl({
     src: ['sounds/cokezs.mp3']
+});
+
+const laserSound = new Howl({
+    src: ['sounds/laser.mp3']
 });

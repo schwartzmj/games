@@ -42,14 +42,14 @@ let ionBlast = {
 let laser = {
     projectile: 'yes',
     'type': 'basic',
-    'size': 0.05,
-    'display': greyBulletSprite,
+    'size': 0.008,
+    'display': laserSprite,
     'damage': 1,
     'numberOf': 0,
     'speedModifier': 5,
-    'cooldown': 0,
+    'cooldown': 75,
     lastUseTime: 0,
-    sound: () => {fireSound.play();},
+    sound: () => {laserSound.play();},
     name: 'Laser'
 };
 
