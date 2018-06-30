@@ -42,3 +42,34 @@ let debugPauseButton = document.getElementById('debugPause');
 debugPauseButton.addEventListener('click', function () {
     debugPause = !debugPause;
 });
+
+let patchNotesButton = document.getElementById('patchNotesButton');
+patchNotesButton.addEventListener('click', function () {
+    debugPause = !debugPause;
+    showPatchNotes();
+});
+
+let notesToggle = false;
+function showPatchNotes() {
+    notesToggle = !notesToggle;
+    let patchNotesEle = document.createElement('div');
+    patchNotesEle.id = 'patchNotes';
+    patchNotesEle.innerHTML = patchNotes;
+    let body = document.getElementsByTagName("body")[0]
+    if (notesToggle) {
+        body.appendChild(patchNotesEle);
+    } else {
+        patchNotesEle = document.getElementById('patchNotes');
+        body.removeChild(patchNotesEle);
+    };
+};
+
+var oReq = new XMLHttpRequest();
+oReq.addEventListener("load", reqListener);
+oReq.open("GET", "patch-notes.md");
+oReq.send();
+
+let patchNotes = '';
+function reqListener() {
+    patchNotes = this.responseText;
+};

@@ -34,39 +34,29 @@ window.onload = function() {
 }
 
 function drawEverything() {
-        c.width = window.innerWidth;
-        c.height = window.innerHeight;
-        ctx.clearRect(0,0,c.width,c.height);
-        drawPlayer();
-        drawInventory();
-        moveEnemies();
-        drawEnemies();
-        drawBullets();
-        drawEnemyProjectiles();
-        checkBulletCollision();
-        drawPlayerInfo();
-        removeOldBullets();
-        if (debug === true) {
-            ctx.font = "12px Georgia";
-            ctx.fillStyle = 'white';
-            ctx.fillText(('x:' + mousePos.x + ' y:' + mousePos.y), mousePos.x, mousePos.y);
-        };
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+    ctx.clearRect(0,0,c.width,c.height);
+    checkBulletCollision();
+    drawPlayer();
+    drawInventory();
+    moveEnemies();
+    drawEnemies();
+    drawBullets();
+    drawEnemyProjectiles();
+    drawPlayerInfo();
+    removeOldBullets();
+    if (debug === true) {
+        ctx.font = "12px Georgia";
+        ctx.fillStyle = 'white';
+        ctx.fillText(('x:' + mousePos.x + ' y:' + mousePos.y), mousePos.x, mousePos.y);
+    };
 };
 
 function moveEverything() {
     Object.keys(keyMap).forEach((key) => {
         if (keyMap[key].isPressed === true) {
-
-        keyMap[key].binding();
-
-
-
-            // checkObjectCooldown(keyMap[key].)
-            // let lastPressTime = keyMap[key].lastPressTime;
-            // let binding = keyMap[key].binding;
-            // console.log(binding);
-            // keyMap[key].use(lastPressTime, binding);
-            // keyMap[key].use(binding);
+            keyMap[key].binding();
         }
     });
 };
@@ -86,51 +76,55 @@ function removeOldBullets() {
     });
 };
 
+function collisionMath(bullet, obj) {
+    let distX = Math.abs(bullet.x - obj.x - obj.width / 2);
+    let distY = Math.abs(bullet.y - obj.y - obj.height / 2);
+    // size in this case is radius... not sure if works with non-circle projectiles
+    // not colliding X and Y checks
+    if (distX > (obj.width / 2 + bullet.size)) {
+        return false;
+    };
+    if (distY > (obj.height / 2 + bullet.size)) {
+        return false;
+    };
+    // colliding X and Y checks
+    if (distX <= (obj.width / 2)) {
+        return true;
+    };
+    if (distY <= (obj.height / 2)) {
+        return true;
+    };
+    let dx = distX - obj.width / 2;
+    let dy = distY - obj.height / 2;
+    return (dx * dx + dy * dy <= (bullet.size * bullet.size));
+}
+
 function checkBulletCollision() {
     bullets.forEach((bullet) => {
         enemies.forEach((enemy) => {
-            let enemyWidth = enemy.width * c.width;
-            let enemyHeight = enemy.height * c.height;
-            let enemyX = enemy.x * c.width;
-            let enemyY = enemy.y * c.height;
-            let bulletX = bullet.x * c.width;
-            let bulletY = bullet.y * c.height;
-            if 
-                // (((bulletX <= (enemyX + enemyWidth)) && (bulletX >= enemyX))
-                // && 
-                // ((bulletY <= (enemyY + enemyHeight)) && (bulletY >= enemyY)))
-
-                (((bullet.x <= (enemy.x + enemy.width)) && (bullet.x >= enemy.x)) &&
-                ((bullet.y <= (enemy.y + enemy.height)) && (bullet.y >= enemy.y)))
-            { 
-                //collision detected
-                
+            //  if collision detected (true)
+            if (collisionMath(bullet, enemy)) {                     
                 //remove the bullet from the array of bullets
-                    let indexBullet = bullets.indexOf(bullet);
-                    bullets.splice(indexBullet, 1);
-
-                    //enemy opacity change -- currently unused
-                    let percentDamagePerBullet = Bullet.damage / enemy.maxLife;
-                    let enemyPercentLife = enemy.life / enemy.maxLife;
+                let indexBullet = bullets.indexOf(bullet);
+                bullets.splice(indexBullet, 1);
 
                 enemy.life -= bullet.damage;
-                    if (enemy.life <= 0) {
+                if (enemy.life <= 0) {
 
-                        Player.score += enemy.points;
+                    Player.score += enemy.points;
 
-                        let indexEnemy = enemies.indexOf(enemy);
-                        clearInterval(enemy.id);
-                        enemies.splice(indexEnemy, 1);
-                    }
+                    let indexEnemy = enemies.indexOf(enemy);
+                    clearInterval(enemy.id);
+                    enemies.splice(indexEnemy, 1);
+                }
             }
         })
     })
     enemyProjectiles.forEach((enemyBullet) => {
-        if (((enemyBullet.x <= (Player.playerX + Player.playerWidth)) && (enemyBullet.x >= Player.playerX)) &&
-            ((enemyBullet.y <= (Player.playerY + Player.playerHeight)) && (enemyBullet.y >= Player.playerY))) {
-                let indexEnemyBullet = enemyProjectiles.indexOf(enemyBullet);
-                enemyProjectiles.splice(indexEnemyBullet, 1);
-                Player.life -= enemyBullet.damage;
+        if (collisionMath(enemyBullet, Player)) {
+            let indexEnemyBullet = enemyProjectiles.indexOf(enemyBullet);
+            enemyProjectiles.splice(indexEnemyBullet, 1);
+            Player.life -= enemyBullet.damage;
         };
     });
 };
@@ -160,3 +154,12 @@ setInterval(() => {
 
 
 
+function getEleCanvasActualFromPercent(ele) {
+    let eleCanvasActual = {
+        x: ele.x * c.width,
+        y: ele.y * c.height,
+        width: ele.width * c.width,
+        height: ele.height * c.height
+    };
+    return eleCanvasActual;
+};

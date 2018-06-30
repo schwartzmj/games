@@ -67,6 +67,27 @@ canvas {
     color:yellow;
 }
 
+#patchNotes {
+    position:fixed;
+    left:30%;
+    top:10%;
+    width: 40%;
+    color:black;
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 1);
+    line-height: 1em;
+    padding: 2em;
+    overflow: scroll;
+}
+#patchNotes li {
+    margin: 2em 0;
+}
+
+#patchNotes li strong {
+    color: rgb(38, 105, 228);
+}
+
 
 
 

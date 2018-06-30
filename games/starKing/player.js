@@ -1,14 +1,8 @@
-let playerSprite = new Image();
-playerSprite.src = 'images/x-wing.png';
-playerSprite.addEventListener('load', function() {
-    ctx.drawImage(playerSprite, Player.playerX, Player.playerY, Player.playerWidth, Player.playerHeight);
-});
-
 let basicProjectile = {
     projectile: 'yes',
     'type': 'basic',
     'size': 0.01,
-    'display': 'purple',
+    'display': greyBulletSprite,
     'damage': 3,
     'speedModifier': 1,
     'cooldown': 1000,
@@ -19,7 +13,7 @@ let shotgunProjectile = {
     projectile: 'yes',
     'type': 'shotgun',
     'size': 0.005,
-    'display': 'white',
+    'display': greyBulletSprite,
     'damage': 0.25,
     'numberOf': 6,
     'speedModifier': 2,
@@ -31,7 +25,7 @@ let meatballShot = {
     projectile: 'yes',
     'type': 'basic',
     'size': 0.05,
-    'display': 'pink',
+    'display': greyBulletSprite,
     'damage': 50,
     'numberOf': 0,
     'speedModifier': 0.25,
@@ -57,12 +51,12 @@ class Bullet {
         this.id = now + Math.random();
         this.type = type;
         this.spawnTime = now;
-        this.x = Player.playerX + Player.playerWidth / 2;
-        this.y = Player.playerY;
+        this.x = Player.x + Player.width / 2;
+        this.y = Player.y;
         this.dx = Player.bulletDX;
         this.dy = Player.bulletDY;
-        this.width = size;
-        this.color = display;
+        this.size = size;
+        this.display = display;
         this.damage = damage;
         this.numberOf = numberOf;
         this.speedModifier = speedModifier;
@@ -77,10 +71,10 @@ class DuplicateBullet extends Bullet {
 };
 
 let Player = {
-    'playerWidth': 0.05,
-    'playerHeight': 0.05,
-    'playerX': 0.5,
-    'playerY': 0.5,
+    'width': 0.05,
+    'height': 0.05,
+    'x': 0.5,
+    'y': 0.5,
     'bulletDX': .0005,
     'bulletDY': .005,
     'playerSpeed': 0.005,
@@ -96,13 +90,13 @@ let Player = {
 };
 
 function drawInventory() {
-    let playerHeightActual = Player.playerHeight * c.height;
-    let playerWidthActual = Player.playerWidth * c.width;
-    let playerXActual = Player.playerX * c.width;
-    let playerYActual = Player.playerY * c.height;
+    let heightActual = Player.height * c.height;
+    let widthActual = Player.width * c.width;
+    let xActual = Player.x * c.width;
+    let yActual = Player.y * c.height;
 
-    let inventoryXGap = playerWidthActual / 2;
-    let inventoryStart = playerXActual - inventoryXGap;
+    let inventoryXGap = widthActual / 2;
+    let inventoryStart = xActual - inventoryXGap;
 
     Player.inventory.forEach((item) => {
     let timeOffCooldown = (now - item.lastUseTime);
@@ -115,23 +109,23 @@ function drawInventory() {
         ctx.fillStyle = 'lightgreen';
     };
     timeOffCooldown /= 1000;
-    ctx.fillText(timeOffCooldown.toFixed(1), inventoryStart+=inventoryXGap, playerYActual + playerHeightActual * 1.5);
+    ctx.fillText(timeOffCooldown.toFixed(1), inventoryStart+=inventoryXGap, yActual + heightActual * 1.5);
     });
 };
 
 function checkPlayerInBounds(dir) {
 
         if ((dir==='up')
-            && (Player.playerY <= 0)) {
+            && (Player.y <= 0)) {
             return false;
         } else if ((dir === 'down') &&
-            (Player.playerY >= 1 - Player.playerHeight)) {
+            (Player.y >= 1 - Player.height)) {
                 return false;
         } else if ((dir === 'left')
-            && (Player.playerX <= 0)) {
+            && (Player.x <= 0)) {
             return false;
         } else if ((dir === 'right')
-            && (Player.playerX >= 1 - Player.playerWidth)) {
+            && (Player.x >= 1 - Player.width)) {
                 return false;
         } else return true;
 }
@@ -144,22 +138,22 @@ function checkPlayerInBounds(dir) {
 let Bindings = {
     playerUp: () => {
         if (checkPlayerInBounds('up')) {
-            Player.playerY -= Player.playerSpeed;
+            Player.y -= Player.playerSpeed;
         };
     },
     playerDown: () => {
         if (checkPlayerInBounds('down')) {
-            Player.playerY += Player.playerSpeed;
+            Player.y += Player.playerSpeed;
         };
     },
     playerLeft: () => {
         if (checkPlayerInBounds('left')) {
-            Player.playerX -= Player.playerSpeed;
+            Player.x -= Player.playerSpeed;
         };
     },
     playerRight: () => {
         if (checkPlayerInBounds('right')) {
-            Player.playerX += Player.playerSpeed;
+            Player.x += Player.playerSpeed;
         };
     },
     useInventory0: () => {
@@ -299,7 +293,7 @@ function drawBullets() {
     bullets.forEach((ele) => {
         let bulletXActual = ele.x * c.width;
         let bulletYActual = ele.y * c.height;
-        let radiusActual = ele.width * c.width;
+        let radiusActual = ele.size * c.width;
          
         if (ele.placement) {
             for (i=0; i<ele.placement; i++) {
@@ -312,15 +306,18 @@ function drawBullets() {
                     }
             }
         }
-                ele.y -= Player.bulletDY * ele.speedModifier;
+    ele.y -= Player.bulletDY * ele.speedModifier;
 
-                
+    
+    if (debug === true) {
+    ctx.fillStyle = 'yellow';
+        ctx.beginPath();
+        ctx.arc(bulletXActual, bulletYActual, radiusActual, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fill();
+    }
 
-                ctx.fillStyle = ele.color;
-                ctx.beginPath();
-                ctx.arc(bulletXActual, bulletYActual, radiusActual, 0, 2 * Math.PI);
-                ctx.stroke();
-                ctx.fill();
+    ctx.drawImage(ele.display, bulletXActual-radiusActual, bulletYActual-radiusActual, radiusActual*2, radiusActual*2);
 
 
             //DEBUGGING
@@ -339,26 +336,15 @@ function drawBullets() {
 };
 
 function drawPlayer() {
-
+    let eleC = getEleCanvasActualFromPercent(Player);
     
-    // To be responsive:
-    // player X and Y coordinates are values from 0-1 (e.g. 0.5 0.284)
-    // player Speed is also a value (e.g. 0.005 (5%))
-    // here, we are converting these percentages into actual number coordinates on canvas
-    let playerXFromPercentToActual = Player.playerX * c.width;
-    let playerYFromPercentToActual = Player.playerY * c.height;
-    // same for player width and height
-    let playerWidthFromPercentToActual = Player.playerWidth * c.width;
-    let playerHeightFromPercentToActual = Player.playerHeight * c.height;
-    // draw it
     if (debug === true) {
         ctx.fillStyle = Player.playerColor;
     } else {
         ctx.fillStyle = 'transparent';
     }
 
-    ctx.fillRect(playerXFromPercentToActual, playerYFromPercentToActual,
-        playerWidthFromPercentToActual, playerWidthFromPercentToActual / 2);
-    // ctx.fill();
-    ctx.drawImage(playerSprite, playerXFromPercentToActual, playerYFromPercentToActual, playerWidthFromPercentToActual, playerHeightFromPercentToActual);
+    ctx.fillRect(eleC.x, eleC.y,
+        eleC.width, eleC.height);
+    ctx.drawImage(playerSprite, eleC.x, eleC.y, eleC.width, eleC.height);
 };

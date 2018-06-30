@@ -1,0 +1,32 @@
+<h1>6/30/18</h1>
+<ul>
+<li>
+Added <strong>Patch Notes</strong> and Patch Notes functionality. Located in debug menu.
+</li>
+<li>
+Created <strong>getEleCanvasActualFromPercent</strong>(ele) function so as not to repeat and to clean up code for every time we convert from % to canvas actual.
+</li>
+<li>
+Updated <strong>projectile collision</strong> for enemies and players. Collisions are now detected at the edge of projectiles, players and enemies instead of only the center of the projectiles.
+</li>
+<li>
+Added ability to use <strong>sprites for player projectiles</strong>. Added placeholder player projectile for each projectile.
+</li>
+</ul>
+<h1>6/29/18</h1>
+<ul>
+<li>
+Added <strong> enemy sprite </strong> functionality. Added two sprites.
+</li>
+<li>
+Added <strong>cooldown</strong> functionality along with their display component.
+</li>
+<li>
+Created <strong>out-of-bounds detection</strong>.
+</li>
+<li>
+Fixed <strong>timer bug</strong> not counting accurately, which affected cooldown counts.
+</li>
+<li>
+<strong>Many</strong> other code improvements.
+</ul>

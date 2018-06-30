@@ -1,59 +1,3 @@
-let fastEnemySprite = new Image();
-fastEnemySprite.src = 'images/tie-fighter.png';
-fastEnemySprite.addEventListener('load', function () {
-    ctx.drawImage(fastEnemySprite, 0, 0, 0, 0);
-    ctx.drawImage(destroyerSprite, 0, 0, 0, 0);
-});
-let destroyerSprite = new Image();
-destroyerSprite.src = 'images/destroyer.png';
-
-//array to hold all enemies that are spawned (they get removed when they die)
-let enemies = [];
-//array to hold all enemy projectiles that are spawned (removed when hit or go off screen)
-let enemyProjectiles = [];
-
-let basicEnemy = {
-    'x': 0.5,
-    'y': 0.5,
-    'dx': 0.0002,
-    'dy': 0.0001,
-    'width': 0.1,
-    'height': 0.05,
-    'display': destroyerSprite,
-    'projectileDX': .0025,
-    'projectileDY': .01,
-    'projectileSize': .01,
-    'projectileDisplay': 'green',
-    'fireRate': 2000,
-    'damage': 1,
-    'points': 1,
-    'life': 3
-};
-
-let fastEnemy = {
-    'x': 0.5,
-    'y': 0.5,
-    'dx': 0.005,
-    'dy': 0.002,
-    'width': 0.05,
-    'height': 0.05*0.8411111073691013,
-    'display': fastEnemySprite,
-    'projectileDX': .006,
-    'projectileDY': .015,
-    'projectileSize': .007,
-    'projectileDisplay': 'red',
-    'fireRate': 3000,
-    'damage': 2,
-    'points': 2,
-    'life': 2
-    // ratio: 0.8411111073691013
-};
-
-
-
-
-
-
 function drawEnemies() {
     enemies.forEach((ele) => {
         //convert % x and y coordinates into actual canvas coordinates
@@ -77,7 +21,6 @@ function drawEnemies() {
     let enemyPercentLife = ele.life/ele.maxLife;
     let enemyLifeBarFillStyle;
     let getEnemyLifeBarFillStyle = () => {
-        console.log(enemyPercentLife)
         if (enemyPercentLife >= 0.95) {return enemyLifeBarFillStyle = 'green'};
         if (enemyPercentLife >= 0.66) {return enemyLifeBarFillStyle = 'yellow'};
         if (enemyPercentLife >= 0.25) {return enemyLifeBarFillStyle = 'orange'};
@@ -136,9 +79,9 @@ function drawEnemyProjectiles() {
         // then continue homing
         if (ele.dx !== 0) {
             
-            if (ele.x <= Player.playerX) {
+            if (ele.x <= Player.x) {
                 ele.x += ele.dx;
-            } else if (ele.x >= Player.playerX) {
+            } else if (ele.x >= Player.x) {
                 ele.x -= ele.dx;
             }
         };
@@ -153,7 +96,7 @@ function drawEnemyProjectiles() {
         ctx.arc(nonPercentXPos, nonPercentYPos, nonPercentRadius, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
-    })
+    });
 };
 
 function moveEnemies() {
