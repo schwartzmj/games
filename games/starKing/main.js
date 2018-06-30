@@ -1,15 +1,7 @@
 let c = document.getElementById('canvas');
 let ctx = c.getContext('2d');
 let then = 0;
-let now = getNow();
 let framesPerSecond = 60;
-
-function getNow() {
-    let dateNow = Date.now();
-    return dateNow;
-}
-
-
 
 // on window load, start game engine, add event listeners
 window.onload = function() {
@@ -19,12 +11,13 @@ window.onload = function() {
             drawEverything();
             moveEverything();
             then = now;
-            now = Date.now();
+            now += 1000/framesPerSecond;
         }
     }, 1000/framesPerSecond);
 
     // keydown event listeners
     document.addEventListener('keydown', function(evt) {
+        console.log(evt.key);
         let keyName = evt.key;
         if (keyMap.hasOwnProperty(keyName)) {
             keyMap[keyName].isPressed = true;
@@ -45,6 +38,8 @@ function drawEverything() {
         c.height = window.innerHeight;
         ctx.clearRect(0,0,c.width,c.height);
         drawPlayer();
+        drawInventory();
+        moveEnemies();
         drawEnemies();
         drawBullets();
         drawEnemyProjectiles();

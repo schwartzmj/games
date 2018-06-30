@@ -2,7 +2,7 @@ let playerSprite = new Image();
 playerSprite.src = 'images/x-wing.png';
 playerSprite.addEventListener('load', function() {
     ctx.drawImage(playerSprite, Player.playerX, Player.playerY, Player.playerWidth, Player.playerHeight);
-})
+});
 
 let basicProjectile = {
     projectile: 'yes',
@@ -11,7 +11,7 @@ let basicProjectile = {
     'display': 'purple',
     'damage': 3,
     'speedModifier': 1,
-    'cooldown': 3000,
+    'cooldown': 1000,
     lastUseTime: 0
 };
 
@@ -24,6 +24,18 @@ let shotgunProjectile = {
     'numberOf': 6,
     'speedModifier': 2,
     'cooldown': 500,
+    lastUseTime: 0
+};
+
+let meatballShot = {
+    projectile: 'yes',
+    'type': 'basic',
+    'size': 0.05,
+    'display': 'pink',
+    'damage': 50,
+    'numberOf': 0,
+    'speedModifier': 0.25,
+    'cooldown': 30000,
     lastUseTime: 0
 };
 
@@ -42,9 +54,9 @@ class Bullet {
         numberOf,
         speedModifier,
     }) {
-        this.id = Date.now() + Math.random();
+        this.id = now + Math.random();
         this.type = type;
-        this.spawnTime = Date.now();
+        this.spawnTime = now;
         this.x = Player.playerX + Player.playerWidth / 2;
         this.y = Player.playerY;
         this.dx = Player.bulletDX;
@@ -78,28 +90,86 @@ let Player = {
     'cooldownModifier': 1,
     inventory: [
         basicProjectile,
-        shotgunProjectile
+        shotgunProjectile,
+        meatballShot
     ]
 };
 
+function drawInventory() {
+    let playerHeightActual = Player.playerHeight * c.height;
+    let playerWidthActual = Player.playerWidth * c.width;
+    let playerXActual = Player.playerX * c.width;
+    let playerYActual = Player.playerY * c.height;
+
+    let inventoryXGap = playerWidthActual / 2;
+    let inventoryStart = playerXActual - inventoryXGap;
+
+    Player.inventory.forEach((item) => {
+    let timeOffCooldown = (now - item.lastUseTime);
+
+    ctx.font = "12px Georgia";
+    ctx.fillStyle = 'red';
+
+    if (timeOffCooldown >= item.cooldown) {
+        timeOffCooldown = item.cooldown;
+        ctx.fillStyle = 'lightgreen';
+    };
+    timeOffCooldown /= 1000;
+    ctx.fillText(timeOffCooldown.toFixed(1), inventoryStart+=inventoryXGap, playerYActual + playerHeightActual * 1.5);
+    });
+};
+
+function checkPlayerInBounds(dir) {
+
+        if ((dir==='up')
+            && (Player.playerY <= 0)) {
+            return false;
+        } else if ((dir === 'down') &&
+            (Player.playerY >= 1 - Player.playerHeight)) {
+                return false;
+        } else if ((dir === 'left')
+            && (Player.playerX <= 0)) {
+            return false;
+        } else if ((dir === 'right')
+            && (Player.playerX >= 1 - Player.playerWidth)) {
+                return false;
+        } else return true;
+}
+
+//????????????????????????
+// IDEA: if check below fails, set a variable like
+// "offRightEdge" to true, then when drawing inventory cooldowns
+// we will offset so you can still see the inventory cooldowns
+//????????????????????????
 let Bindings = {
     playerUp: () => {
-        Player.playerY -= Player.playerSpeed
+        if (checkPlayerInBounds('up')) {
+            Player.playerY -= Player.playerSpeed;
+        };
     },
     playerDown: () => {
-        Player.playerY += Player.playerSpeed
+        if (checkPlayerInBounds('down')) {
+            Player.playerY += Player.playerSpeed;
+        };
     },
     playerLeft: () => {
-        Player.playerX -= Player.playerSpeed
+        if (checkPlayerInBounds('left')) {
+            Player.playerX -= Player.playerSpeed;
+        };
     },
     playerRight: () => {
-        Player.playerX += Player.playerSpeed
+        if (checkPlayerInBounds('right')) {
+            Player.playerX += Player.playerSpeed;
+        };
     },
     useInventory0: () => {
         useInventory(0)
     },
     useInventory1: () => {
         useInventory(1)
+    },
+    useInventory2: () => {
+        useInventory(2)
     }
 };
 
@@ -109,8 +179,7 @@ let Bindings = {
 
 
 function checkKeyBindingCooldown(inventoryItem) {
-    let dTime = (now - inventoryItem.lastUseTime) * framesPerSecond;
-    console.log('dTime: ' + dTime + ' invItemCD: ' + inventoryItem.cooldown);
+    let dTime = (now - inventoryItem.lastUseTime);
     if (dTime >= inventoryItem.cooldown) {
         return 'offCooldown';
     } else {
@@ -123,14 +192,11 @@ function useInventory(inventoryItemNum) {
     ////WHY DOESNT THIS WORK
     let inventoryItem = Player.inventory[inventoryItemNum];
     let keyBindingCooldownCheck = checkKeyBindingCooldown(inventoryItem);
-    console.log('offcooldown check results: ' + keyBindingCooldownCheck);
     if (keyBindingCooldownCheck === 'offCooldown') {
-        if ((inventoryItem.projectile === 'yes') && (keyBindingCooldownCheck === 'offCooldown')) {
-            console.log('======made it through check=======');
+        if (inventoryItem.projectile === 'yes') {
             generatePlayerProjectile(inventoryItem);
         };
     } else {
-    console.log('FAILED COOLDOWN CHECK');
     };
 };
 
@@ -147,7 +213,6 @@ function generatePlayerProjectile(inventoryItem) {
     } else {
         bullets.push(newBullet);
     };
-    console.log('setting ' + inventoryItem.lastUseTime + ' to: ' + now);
     inventoryItem.lastUseTime = now;
 }
 
@@ -177,33 +242,43 @@ let keyMap = {
         lastPressTime: 0,
         binding: Bindings.playerRight
     },
-    ArrowUp: {
+    9: {
         cooldown: () => {checkKeyBindingCooldown(binding)},
         isPressed: false,
         lastPressTime: 0,
-        binding: Bindings.useInventory0,
-        // use: (lastPressTime, binding) => {useBinding(lastPressTime, binding)}
-        use: (binding) => {
-            useBinding(binding)
-        }
+        binding: Bindings.useInventory2
     },
-    ArrowDown: {
-        isPressed: false,
-        lastPressTime: 0,
-        binding: Bindings.useInventory1,
-        //this is confusing, but in "moveEverything()", we call "Use" and tell it to run the function
-        // tied to the key "binding". we do NOT call "binding" by itself, like you would think,
-        // because after the arrow function for "use", we can pass it parameters
-        use: (binding) => {
-            Player.useInventory(binding)
-        }
-    },
-    ArrowLeft: {
+    8: {
         isPressed: false,
         lastPressTime: 0,
         binding: () => console.log('placeholder')
     },
-    ArrowRight: {
+    7: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: () => console.log('placeholder')
+    },
+    6: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: () => console.log('placeholder')
+    },
+    5: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: Bindings.useInventory0
+    },
+    4: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: Bindings.useInventory1
+    },
+    0: {
+        isPressed: false,
+        lastPressTime: 0,
+        binding: () => console.log('placeholder')
+    },
+    Enter: {
         isPressed: false,
         lastPressTime: 0,
         binding: () => console.log('placeholder')
@@ -264,9 +339,9 @@ function drawBullets() {
     })
 };
 
-
-
 function drawPlayer() {
+
+    
     // To be responsive:
     // player X and Y coordinates are values from 0-1 (e.g. 0.5 0.284)
     // player Speed is also a value (e.g. 0.005 (5%))
@@ -285,6 +360,6 @@ function drawPlayer() {
 
     ctx.fillRect(playerXFromPercentToActual, playerYFromPercentToActual,
         playerWidthFromPercentToActual, playerWidthFromPercentToActual / 2);
-    ctx.fill();
+    // ctx.fill();
     ctx.drawImage(playerSprite, playerXFromPercentToActual, playerYFromPercentToActual, playerWidthFromPercentToActual, playerHeightFromPercentToActual);
 };

@@ -1,3 +1,12 @@
+let fastEnemySprite = new Image();
+fastEnemySprite.src = 'images/tie-fighter.png';
+fastEnemySprite.addEventListener('load', function () {
+    ctx.drawImage(fastEnemySprite, 0, 0, 0, 0);
+    ctx.drawImage(destroyerSprite, 0, 0, 0, 0);
+});
+let destroyerSprite = new Image();
+destroyerSprite.src = 'images/destroyer.png';
+
 //array to hold all enemies that are spawned (they get removed when they die)
 let enemies = [];
 //array to hold all enemy projectiles that are spawned (removed when hit or go off screen)
@@ -6,12 +15,12 @@ let enemyProjectiles = [];
 let basicEnemy = {
     'x': 0.5,
     'y': 0.5,
-    'dx': 0,
-    'dy': 0,
+    'dx': 0.0002,
+    'dy': 0.0001,
     'width': 0.1,
     'height': 0.05,
-    'display': 'yellow',
-    'projectileDX': .003,
+    'display': destroyerSprite,
+    'projectileDX': .0025,
     'projectileDY': .01,
     'projectileSize': .01,
     'projectileDisplay': 'green',
@@ -24,11 +33,11 @@ let basicEnemy = {
 let fastEnemy = {
     'x': 0.5,
     'y': 0.5,
-    'dx': 0,
-    'dy': 0,
+    'dx': 0.005,
+    'dy': 0.002,
     'width': 0.05,
-    'height': 0.025,
-    'display': 'orange',
+    'height': 0.05*0.8411111073691013,
+    'display': fastEnemySprite,
     'projectileDX': .006,
     'projectileDY': .015,
     'projectileSize': .007,
@@ -37,12 +46,8 @@ let fastEnemy = {
     'damage': 2,
     'points': 2,
     'life': 2
+    // ratio: 0.8411111073691013
 };
-
-
-
-
-
 
 
 
@@ -58,16 +63,42 @@ function drawEnemies() {
         let enemyWidthActual = ele.width * c.width;
         let enemyHeightActual = ele.height * c.height;
         // fill enemy with display color
-        ctx.fillStyle = ele.display;
+        if (debug === true) {
+            ctx.fillStyle = 'pink';
+        } else {
+            ctx.fillStyle = 'transparent';
+        }
+        
         //draw the enemy
         ctx.fillRect(enemyXActual, enemyYActual,
             enemyWidthActual, enemyHeightActual);
-        // write enemy HP at middle of enemy
-        ctx.font = (enemyWidthActual*0.1 + "px Georgia");
-        ctx.fillStyle = 'black';
-        ctx.fillText(ele.life.toFixed(1) + "/" + ele.maxLife + " " +
-            Math.floor(ele.life/ele.maxLife*100) + "%",
-            enemyXActual+enemyWidthActual/3, enemyYActual+enemyHeightActual/1.75);
+        ctx.drawImage(ele.display, enemyXActual, enemyYActual, enemyWidthActual, enemyHeightActual);
+
+    let enemyPercentLife = ele.life/ele.maxLife;
+    let enemyLifeBarFillStyle;
+    let getEnemyLifeBarFillStyle = () => {
+        console.log(enemyPercentLife)
+        if (enemyPercentLife >= 0.95) {return enemyLifeBarFillStyle = 'green'};
+        if (enemyPercentLife >= 0.66) {return enemyLifeBarFillStyle = 'yellow'};
+        if (enemyPercentLife >= 0.25) {return enemyLifeBarFillStyle = 'orange'};
+        if (enemyPercentLife >= 0) {return enemyLifeBarFillStyle = 'red'};
+    };
+    getEnemyLifeBarFillStyle();
+    ctx.fillStyle = enemyLifeBarFillStyle;
+    ctx.fillRect(enemyXActual+(enemyWidthActual*.2), enemyYActual-enemyHeightActual*0.2,
+        (enemyWidthActual*.6)*enemyPercentLife, enemyHeightActual*0.1);
+
+
+
+
+
+
+        // write enemy HP above enemy
+        // ctx.font = (enemyWidthActual*0.2 + "px Georgia");
+        // ctx.fillStyle = 'white';
+        // ctx.fillText(ele.life.toFixed(1) + "/" + ele.maxLife + " " +
+        //     Math.floor(ele.life/ele.maxLife*100) + "%",
+        //     enemyXActual+enemyWidthActual/3, enemyYActual-enemyHeightActual*0.25);
 
 
         //DEBUGGING
@@ -100,9 +131,11 @@ function generateNewEnemy({x, y, dx, dy, width, height, display, projectileDX, p
 function drawEnemyProjectiles() {
     enemyProjectiles.forEach((ele) => {
         ele.y += ele.dy;
-        // this += ele.dx wont be helpful if we dont change it to something useful
-        // possibly using an if statement to home in on the player?
-        if (ele.x !== 0) {
+        // 
+        //aim at the player
+        // then continue homing
+        if (ele.dx !== 0) {
+            
             if (ele.x <= Player.playerX) {
                 ele.x += ele.dx;
             } else if (ele.x >= Player.playerX) {
@@ -124,20 +157,28 @@ function drawEnemyProjectiles() {
 };
 
 function moveEnemies() {
-    if (debugPause === false) {
-        enemies.forEach((enemy) => {
-            let movePositive = Math.random() / 10;
-            let moveNegative = -(Math.random() / 10);
-            let move = movePositive + moveNegative;
-            enemy.x += move;
-        });
-    }
+    enemies.forEach((enemy) => {
+        if (enemy.x >= 1 || enemy.x <= 0) {
+            enemy.dx *= -1;
+        };
+        if (enemy.y >= 1 || enemy.y <= 0){
+            enemy.dy *= -1;
+        };
+        enemy.x += enemy.dx;
+            // let randomBoolean = Math.random() >= 0.5;
+            // let randomNum = Math.random();
+            // if (randomBoolean) {
+            //     enemy.x += enemy.dx;
+            // } else {
+            //     enemy.x -= enemy.dx;
+            // }
+    });
 };
 
 class Enemy {
     constructor(x, y, dx, dy, width, height, display, projectileDX, projectileDY, projectileSize, projectileDisplay, fireRate, damage, points, life) {
-        this.enemyId = Date.now() + Math.random();
-        this.spawnTime = Date.now();
+        this.enemyId = now + Math.random();
+        this.spawnTime = now;
         // spawn x and y coordinates
         this.x = x;
         this.y = y;
@@ -157,7 +198,7 @@ class Enemy {
         this.fireRate = fireRate;
         this.damage = damage;
         // last projectile fired timestamp
-        this.lastFire = Date.now();
+        this.lastFire = now;
         // points for killing and HP
         this.points = points;
         this.life = life;
@@ -168,8 +209,8 @@ class Enemy {
         let x = (this.x + (this.width/2))
         let enemyProjectile = {
             'enemyId': this.enemyId,
-            'projectileId': (Date.now() + Math.random()),
-            'spawnTime': Date.now(),
+            'projectileId': (now + Math.random()),
+            'spawnTime': now,
             'x': x,
             'y': this.y,
             'dx': this.projectileDX,
