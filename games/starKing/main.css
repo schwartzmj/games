@@ -102,6 +102,12 @@ canvas {
     outline: 1px solid slategrey;
 }
 
+#logo {
+    position:fixed;
+    bottom:1%;
+    left:1%;
+    width: 10%;
+}
 
 
 /* +++++++++++++++++++++++++++

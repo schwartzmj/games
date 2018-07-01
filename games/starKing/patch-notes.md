@@ -1,5 +1,9 @@
+<img style="width:40%; position:absolute; top:0;right:0" src="images/logo.png">
 <h1>6/30/18</h1>
 <ul>
+<li>
+Added <strong>logo</strong>.
+</li>
 <li>
 Added temporary <strong>inventory list</strong> to player info (top left).
 </li>

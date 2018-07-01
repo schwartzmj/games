@@ -262,6 +262,8 @@ function generatePlayerProjectile(inventoryItem) {
     inventoryItem.lastUseTime = now;
 }
 
+
+
 //keyMap helps with telling us what keys the user is pressing AND
 // also helps assign inventory to keys (use items/shoot bullets)
 let keyMap = {

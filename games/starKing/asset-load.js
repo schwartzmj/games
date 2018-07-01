@@ -58,7 +58,12 @@ healthPackSprite.addEventListener('load', function () {
 });
 
 
-
+// misc
+let logo = new Image();
+logo.src = 'images/x-wing.png';
+logo.addEventListener('load', function () {
+    ctx.drawImage(logo, Player.x, Player.y, Player.width, Player.height);
+});
 
 
 
