@@ -1,6 +1,9 @@
-<img style="width:40%; position:absolute; top:0;right:0" src="images/logo.png">
+<img style="width:40%; position:absolute; top:5px;right:5px" src="images/logo.png">
 <h1>6/30/18</h1>
 <ul>
+<li>
+Added new <strong>enemy sprite</strong> and new <strong>enemy projectile Evil Blast</strong>
+</li>
 <li>
 Added <strong>logo</strong>.
 </li>

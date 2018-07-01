@@ -17,10 +17,17 @@ fastEnemySprite.src = 'images/tie-fighter.png';
 fastEnemySprite.addEventListener('load', function () {
     ctx.drawImage(fastEnemySprite, 0, 0, 0, 0);
 });
+
 let destroyerSprite = new Image();
 destroyerSprite.src = 'images/destroyer.png';
 destroyerSprite.addEventListener('load', function () {
     ctx.drawImage(destroyerSprite, 0, 0, 0, 0);
+});
+
+let oeGoonSquadSprite = new Image();
+oeGoonSquadSprite.src = 'images/oe-goonsquad.png';
+oeGoonSquadSprite.addEventListener('load', function () {
+    ctx.drawImage(oeGoonSquadSprite, 0, 0, 0, 0);
 });
 
 // projectiles
@@ -47,6 +54,12 @@ let laserSprite = new Image();
 laserSprite.src = 'images/laser.png';
 laserSprite.addEventListener('load', function () {
     ctx.drawImage(laserSprite, 0, 0, 0, 0);
+});
+
+let evilBlastSprite = new Image();
+evilBlastSprite.src = 'images/evil-blast.png';
+evilBlastSprite.addEventListener('load', function () {
+    ctx.drawImage(evilBlastSprite, 0, 0, 0, 0);
 });
 
 // power ups

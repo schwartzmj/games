@@ -72,6 +72,8 @@ function generateNewEnemy({x, y, dx, dy, width, height, display, projectileDX, p
 };
 
 function drawEnemyProjectiles() {
+evilBlastSprite
+
     enemyProjectiles.forEach((ele) => {
         ele.y += ele.dy;
         // 
@@ -91,11 +93,16 @@ function drawEnemyProjectiles() {
         let nonPercentYPos = ele.y * c.height;
         let nonPercentRadius = ele.size * c.width;
 
-        ctx.fillStyle = ele.display;
-        ctx.beginPath();
-        ctx.arc(nonPercentXPos, nonPercentYPos, nonPercentRadius, 0, 2 * Math.PI);
-        ctx.stroke();
-        ctx.fill();
+        if (debug === true) {
+            ctx.fillStyle = 'red';
+            ctx.beginPath();
+            ctx.arc(nonPercentXPos, nonPercentYPos, nonPercentRadius, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.fill();
+        };
+
+    ctx.drawImage(ele.display, nonPercentXPos - nonPercentRadius, nonPercentYPos - nonPercentRadius, nonPercentRadius * 2, nonPercentRadius * 2);
+
     });
 };
 
